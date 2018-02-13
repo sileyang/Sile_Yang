@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1513109901559.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1842696503",
+    "id" : "4F1AAB7D",
+    "lastKnownWriteTime" : 1513356147,
+    "last_content_update" : 1513356147262,
+    "path" : "C:/Yang_Sile/final project/MarvelData/R/InfoMarvelCharacters.R",
+    "project_path" : "R/InfoMarvelCharacters.R",
+    "properties" : {
+        "cursorPosition" : "14,19",
+        "scrollLine" : "0",
+        "tempName" : "Untitled2"
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

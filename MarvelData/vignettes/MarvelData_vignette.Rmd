@@ -1,0 +1,124 @@
+---
+title: "MarvelDataVignette"
+author: "Sile Yang"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Introduction
+
+In this package, you can get various Marvel data from Marvel API, including characters, events, comics and series in Marvel.
+There are five functions in the package: `MarvelCharacters`, `InfoMarvelCharacters`, `InfoMarvelEvents`, `InfoMarvelComics`, `InfoMarvelSeries`. 
+
+# First...
+
+First of all, you should get an API key <https://developer.marvel.com/>. Following the instruction, you will get a public key and a private key. 
+
+# Function: MarvelCharacters
+
+In this function, you will send several request to Marvel API, and get a dataset including all characters and their brief description in Marvel cosmic (total 1491). If you have no idea about Marvel and Marvel heroes, this function is your best choice. 
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(httr)
+library(digest)
+library(jsonlite)
+library(tidyverse)
+library(stringr)
+```
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(MarvelData)
+MarvelData <-MarvelCharacters(Sys.getenv("MARVEL_PUBLIC_KEY"),Sys.getenv("MARVEL_PRIVATE_KEY"))
+head(MarvelData,n=20)
+```
+
+You can choose a character who interests you and get more information in following functions.
+
+
+# Functions: InfoMarvelCharacters
+
+In this function, you will send a request to Marvel API, and get a dataset including one character's name, description and events, comics and series that contains the character.
+There are four arguments in this function: Character's name, your public key, your private key, and showing more detail info of events, comics and series. In the forth argument, you have four choices:
+
+1.Keep it blank.
+In this condition, you will get a dataset only including character's name and description.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(MarvelData)
+InfoMarvelCharacters("Thor",Sys.getenv("MARVEL_PUBLIC_KEY"),Sys.getenv("MARVEL_PRIVATE_KEY"))
+```
+
+2.Events
+In this case, you will get a dataset including some events that contains your character.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(MarvelData)
+InfoMarvelCharacters("Thor",Sys.getenv("MARVEL_PUBLIC_KEY"),Sys.getenv("MARVEL_PRIVATE_KEY"),"events")
+```
+The output of this example is a dataset including some events that contains Thor.
+
+3.Comics
+In this case, you will get a dataset including some comics that contains your character.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(MarvelData)
+InfoMarvelCharacters("Thor",Sys.getenv("MARVEL_PUBLIC_KEY"),Sys.getenv("MARVEL_PRIVATE_KEY"),"comics")
+```
+The output of this example is a dataset including some comics that contains Thor.
+
+4.Series
+In this case, you will get a dataset including some series that contains your character.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(MarvelData)
+InfoMarvelCharacters("Thor",Sys.getenv("MARVEL_PUBLIC_KEY"),Sys.getenv("MARVEL_PRIVATE_KEY"),"series")
+```
+The output of this example is a dataset including some series that contains Thor.
+
+
+# Function: InfoMarvelEvents
+
+Same as function `InfoMarvelCharacters`, this function will show you a dataset related with a event. Besides event's title, description, start year and end year, you can request more information of characters included in the event and comics and series that contains the event.
+There are four arguments in this function: Event's title, your public key, your private key, and showing more detail info of characters, comics and series. In the forth argument, you have four choices: "characters", "comics", "series" or keep it blank(default).
+
+For examples:
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(MarvelData)
+InfoMarvelEvents("Civil%20War",Sys.getenv("MARVEL_PUBLIC_KEY"),Sys.getenv("MARVEL_PRIVATE_KEY"))
+```
+The output is a dataset including Civil War's description, start year and end year(in real time).
+__Attention__: when you input event's title, if there is a blank in the title, you should use %20 to replace the blank.(Same as characters, series and comics' title)
+For example, the event's title is "Civil War". The input of function should be "Civil%20War".
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(MarvelData)
+InfoMarvelEvents("Civil%20War",Sys.getenv("MARVEL_PUBLIC_KEY"),Sys.getenv("MARVEL_PRIVATE_KEY"),"series")
+```
+In this example, you will get a dataset about series that contains Civil War.
+
+
+# Function: InfoMarvelComics
+
+In this function, you will get a lot of data of one comics topic. The output of this function is a dataset contains comics'title, description, issuenumber and format.
+You should input one comics' title(do not need input the number of this comics).
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(MarvelData)
+ComicsData <- InfoMarvelComics("Amazing%20Spider-Man",Sys.getenv("MARVEL_PUBLIC_KEY"),Sys.getenv("MARVEL_PRIVATE_KEY"))
+head(ComicsData,n=20)
+```
+
+
+# Function: InfoMarvelSeries
+
+In this function, you will get a dataset including one series title, description, start year, end year, rating and type.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+InfoMarvelSeries("Black%20Panther",Sys.getenv("MARVEL_PUBLIC_KEY"),Sys.getenv("MARVEL_PRIVATE_KEY"))
+```
+

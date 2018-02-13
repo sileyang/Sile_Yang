@@ -1,0 +1,26 @@
+Package: MarvelData
+Type: Package
+Title: The right way to become a MARVEL fan
+Version: 0.1.0
+Author: @R:person("Sile","Yang",email="sy2738@columbia.edu",role=c("aut","cre"))
+Maintainer: Sile Yang<sy2738@columbia.edu>
+Description: MarvelData provides multiple functions to request data from Marvel API. 
+            A user can search any characters in Marvel comics, 
+            and infomation about each comics, events, and series.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    httr,
+    jsonlite,
+    digest,
+    stringr,
+    tidyverse
+RoxygenNote: 6.0.1.9000
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
+
+
+

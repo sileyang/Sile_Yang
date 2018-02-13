@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1513265977383.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "49027040",
+    "id" : "1B5C78CC",
+    "lastKnownWriteTime" : 1513357157,
+    "last_content_update" : 1513357157,
+    "path" : "C:/Yang_Sile/final project/MarvelData/NAMESPACE",
+    "project_path" : "NAMESPACE",
+    "properties" : {
+        "cursorPosition" : "12,0",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 10,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_namespace"
+}

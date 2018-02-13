@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1513265579157.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3573397615",
+    "id" : "36F99BB8",
+    "lastKnownWriteTime" : 1513361498,
+    "last_content_update" : 1513361498581,
+    "path" : "C:/Yang_Sile/final project/MarvelData/vignettes/MarvelData_vignette.Rmd",
+    "project_path" : "vignettes/MarvelData_vignette.Rmd",
+    "properties" : {
+        "cursorPosition" : "19,0",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 8,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}
