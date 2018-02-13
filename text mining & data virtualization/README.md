@@ -1,8 +1,13 @@
 
-#Project: Text Mining among Edgar Allan Poe, HP Lovecraft, and Mary Shelley
+
+Author: Sile Yang
+Independent Project
+
+
+# Project: Text Mining among Edgar Allan Poe, HP Lovecraft, and Mary Shelley
 ***
 
-##Project Description
+## Project Description
 ***
 * Project title: The difference and similarity among three authors: Edgar Allan Poe(EAP), HP Lovecraft(HPL), Mary Shelley(MWS).
 * This project is conducted by SIle Yang, UNI: sy2738
