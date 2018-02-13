@@ -1,0 +1,12 @@
+name: PD_model
+title: PD_model
+username:
+account: rickydang
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 232073
+bundleId: 1059729
+url: https://rickydang.shinyapps.io/PD_model/
+when: 1509875759.89639
+asMultiple: FALSE
+asStatic: FALSE

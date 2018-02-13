@@ -1,0 +1,12 @@
+name: w1wewe
+title: w1wewe
+username:
+account: datafest
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 231850
+bundleId: 1058711
+url: https://datafest.shinyapps.io/w1wewe/
+when: 1509775314.02391
+asMultiple: FALSE
+asStatic: FALSE

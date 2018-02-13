@@ -1,0 +1,512 @@
+library(glmnet)
+# select data with adjusting for BirthWeight
+used_data <- as.matrix(sub_ChickWeight1[, c(7, 6)])
+colnames(used_data) <- c("BirthWeight", "Group")
+# L-1 regularized regression
+L1logR5 <- glmnet(used_data, sub_ChickWeight1$Bweight, family = "binomial")
+cvL1logR5 <- cv.glmnet(used_data, sub_ChickWeight1$Bweight, family = "binomial", nfolds = 5)
+plot(cvL1logR5, main = "L-1 logistic regression")
+lambda <-cvL1logR5$lambda.min
+lambda
+used_model <- cvL1logR5$glmnet.fit
+coef_result <- coef(used_model, lambda)
+coef_result
+library(glmnet)
+# select data with adjusting for BirthWeight
+used_data <- as.matrix(sub_ChickWeight1[, c(7, 6)])
+colnames(used_data) <- c("BirthWeight", "Group")
+# L-1 regularized regression
+L1logR5 <- glmnet(used_data, sub_ChickWeight1$Bweight, family = "binomial")
+cvL1logR5 <- cv.glmnet(used_data, sub_ChickWeight1$Bweight, family = "binomial", nfolds = 5)
+plot(cvL1logR5, main = "L-1 logistic regression")
+lambda <-cvL1logR5$lambda.min
+lambda
+used_model <- cvL1logR5$glmnet.fit
+coef_result <- coef(used_model, lambda)
+coef_result
+library(glmnet)
+# select data with adjusting for BirthWeight
+used_data <- as.matrix(sub_ChickWeight1[, c(7, 6)])
+colnames(used_data) <- c("BirthWeight", "Group")
+# L-1 regularized regression
+L1logR5 <- glmnet(used_data, sub_ChickWeight1$Bweight, family = "binomial")
+cvL1logR5 <- cv.glmnet(used_data, sub_ChickWeight1$Bweight, family = "binomial", nfolds = 5)
+plot(cvL1logR5, main = "L-1 logistic regression")
+lambda <-cvL1logR5$lambda.min
+lambda
+used_model <- cvL1logR5$glmnet.fit
+coef_result <- coef(used_model, lambda)
+coef_result
+data("ChickWeight")
+head(ChickWeight)
+dim(ChickWeight)
+# change weight to a binary variable
+ChickWeight$Bweight <- ifelse(ChickWeight$weight < 180, 1, 0)
+# select data with diet 1 and 4 on day 21
+index1 <- ChickWeight$Diet == 1 | ChickWeight$Diet == 2
+index2 <- ChickWeight$Time == 21
+sub_ChickWeight <- ChickWeight[index1 & index2, ]
+dim(sub_ChickWeight)
+sub_ChickWeight$Group <- ifelse(sub_ChickWeight$Diet ==1, 1, 0)
+logR1 <- glm(Bweight~Group, family = "binomial", data = sub_ChickWeight)
+summary(logR1)
+birthweight <- subset(ChickWeight, select = c(weight, Chick), Time == 0)
+names(birthweight) <- c("BirthWeight", "Chick")
+# combine the data
+sub_ChickWeight1 <- merge(sub_ChickWeight, birthweight, by.y = "Chick")
+logR2 <- glm(Bweight~Group+BirthWeight, family = "binomial", data = sub_ChickWeight1)
+summary(logR2)
+sub_ChickWeight2 <- ChickWeight[ChickWeight$Time == 21, ]
+sub_ChickWeight2$Group1 <- ifelse(sub_ChickWeight2$Diet ==1, 1, 0)
+sub_ChickWeight2$Group2 <- ifelse(sub_ChickWeight2$Diet ==2, 1, 0)
+sub_ChickWeight2$Group3 <- ifelse(sub_ChickWeight2$Diet ==3, 1, 0)
+logR3 <- glm(Bweight~Group1 + Group2 + Group3, family = "binomial", data = sub_ChickWeight2)
+summary(logR3)
+sub_ChickWeight3 <- merge(sub_ChickWeight2, birthweight, by.y = "Chick")
+logR4 <- glm(Bweight~Group1 + Group2 + Group3 + BirthWeight, family = "binomial", data = sub_ChickWeight3)
+summary(logR4)
+sub_ChickWeight
+data("ChickWeight")
+head(ChickWeight)
+dim(ChickWeight)
+# change weight to a binary variable
+ChickWeight$Bweight <- ifelse(ChickWeight$weight < 180, 1, 0)
+# select data with diet 1 and 4 on day 21
+index1 <- ChickWeight$Diet == 1 | ChickWeight$Diet == 2
+index2 <- ChickWeight$Time == 21
+sub_ChickWeight <- ChickWeight[index1 & index2, ]
+dim(sub_ChickWeight)
+sub_ChickWeight$Group <- ifelse(sub_ChickWeight$Diet ==1, 1, 0)
+logR1 <- glm(Bweight~Group, family = "binomial", data = sub_ChickWeight)
+summary(logR1)
+birthweight <- subset(ChickWeight, select = c(weight, Chick), Time == 0)
+names(birthweight) <- c("BirthWeight", "Chick")
+# combine the data
+sub_ChickWeight1 <- merge(sub_ChickWeight, birthweight, by.y = "Chick")
+logR2 <- glm(Bweight~Group+BirthWeight, family = "binomial", data = sub_ChickWeight1)
+summary(logR2)
+data("ChickWeight")
+head(ChickWeight)
+dim(ChickWeight)
+# change weight to a binary variable
+ChickWeight$Bweight <- ifelse(ChickWeight$weight < 180, 1, 0)
+# select data with diet 1 and 4 on day 21
+index1 <- ChickWeight$Diet == 1 | ChickWeight$Diet == 2
+index2 <- ChickWeight$Time == 21
+sub_ChickWeight <- ChickWeight[index1 & index2, ]
+dim(sub_ChickWeight)
+sub_ChickWeight$Group <- ifelse(sub_ChickWeight$Diet ==1, 1, 0)
+logR1 <- glm(Bweight~Group, family = "binomial", data = sub_ChickWeight)
+summary(logR1)
+birthweight <- subset(ChickWeight, select = c(weight, Chick), Time == 0)
+names(birthweight) <- c("BirthWeight", "Chick")
+# combine the data
+sub_ChickWeight1 <- merge(sub_ChickWeight, birthweight, by.y = "Chick")
+logR2 <- glm(Bweight~Group+BirthWeight, family = "binomial", data = sub_ChickWeight1)
+summary(logR2)
+sub_ChickWeight2 <- ChickWeight[ChickWeight$Time == 21, ]
+sub_ChickWeight2$Group1 <- ifelse(sub_ChickWeight2$Diet ==1, 1, 0)
+sub_ChickWeight2$Group2 <- ifelse(sub_ChickWeight2$Diet ==2, 1, 0)
+sub_ChickWeight2$Group3 <- ifelse(sub_ChickWeight2$Diet ==3, 1, 0)
+logR3 <- glm(Bweight~Group1 + Group2 + Group3, family = "binomial", data = sub_ChickWeight2)
+summary(logR3)
+sub_ChickWeight3 <- merge(sub_ChickWeight2, birthweight, by.y = "Chick")
+logR4 <- glm(Bweight~Group1 + Group2 + Group3 + BirthWeight, family = "binomial", data = sub_ChickWeight3)
+summary(logR4)
+data("ChickWeight")
+data("ChickWeight")
+ChickWeight$Weight <- rep(0, dim(ChickWeight)[1])
+ChickWeight$Weight[ChickWeight$weight < 180] <- 1
+sub_day21 <- subset(ChickWeight, Diet %in% c(1, 4) & Time == 21)
+data("ChickWeight")
+ChickWeight$Weight <- rep(0, dim(ChickWeight)[1])
+ChickWeight$Weight[ChickWeight$weight < 180] <- 1
+sub_day21 <- subset(ChickWeight, Diet %in% c(1, 2) & Time == 21)
+sub_day21$Group <- rep(0, dim(sub_day21)[1])
+sub_day21$Group[sub_day21$Diet ==1] <- 1
+log1 <- glm(Weight~Group, family = "binomial", data = sub_day21)
+summary(log1)
+BirthWeight <- subset(ChickWeight, select = c(weight, Chick), Time ==0)
+names(BirthWeight)[names(BirthWeight) == "weight"] <- "BirthWeight"
+sub_day21 <- merge(sub_day21, BirthWeight, by.y = "Chick")
+log2 <- glm(Weight~Group + BirthWeight, family = "binomial", data = sub_day21)
+summary(log2)
+data <- as.matrix(subset(sub_day21, select = c(BirthWeight, Group)))
+colnames(data) <- c("BirthWeight", "Group")
+L1 <- glmnet(data,sub_day21$Weight, family = "binomial")
+cvL1 <- cv.glmnet(data, sub_day21$Weight, family = "binomial")
+cvL1 <- cv.glmnet(data, sub_day21$Weight, family = "binomial", nfolds = 5)
+plot(cvL1, main = "L-1 logistic regression")
+lambda <-cvL1$lambda.min
+lambda
+model <- cvL1$glmnet.fit
+coeff<- coef(model, lambda)
+coeff
+data("ChickWeight")
+head(ChickWeight)
+dim(ChickWeight)
+# change weight to a binary variable
+ChickWeight$Bweight <- ifelse(ChickWeight$weight < 180, 1, 0)
+# select data with diet 1 and 4 on day 21
+index1 <- ChickWeight$Diet == 1 | ChickWeight$Diet == 2
+index2 <- ChickWeight$Time == 21
+sub_ChickWeight <- ChickWeight[index1 & index2, ]
+dim(sub_ChickWeight)
+sub_ChickWeight$Group <- ifelse(sub_ChickWeight$Diet ==1, 1, 0)
+logR1 <- glm(Bweight~Group, family = "binomial", data = sub_ChickWeight)
+summary(logR1)
+birthweight <- subset(ChickWeight, select = c(weight, Chick), Time == 0)
+names(birthweight) <- c("BirthWeight", "Chick")
+# combine the data
+sub_ChickWeight1 <- merge(sub_ChickWeight, birthweight, by.y = "Chick")
+logR2 <- glm(Bweight~Group+BirthWeight, family = "binomial", data = sub_ChickWeight1)
+summary(logR2)
+sub_ChickWeight2 <- ChickWeight[ChickWeight$Time == 21, ]
+sub_ChickWeight2$Group1 <- ifelse(sub_ChickWeight2$Diet ==1, 1, 0)
+sub_ChickWeight2$Group2 <- ifelse(sub_ChickWeight2$Diet ==2, 1, 0)
+sub_ChickWeight2$Group3 <- ifelse(sub_ChickWeight2$Diet ==3, 1, 0)
+logR3 <- glm(Bweight~Group1 + Group2 + Group3, family = "binomial", data = sub_ChickWeight2)
+summary(logR3)
+sub_ChickWeight3 <- merge(sub_ChickWeight2, birthweight, by.y = "Chick")
+logR4 <- glm(Bweight~Group1 + Group2 + Group3 + BirthWeight, family = "binomial", data = sub_ChickWeight3)
+summary(logR4)
+# choose the best lambda
+library(glmnet)
+# select data with adjusting for BirthWeight
+used_data <- as.matrix(sub_ChickWeight1[, c(7, 6)])
+colnames(used_data) <- c("BirthWeight", "Group")
+# L-1 regularized regression
+L1logR5 <- glmnet(used_data, sub_ChickWeight1$Bweight, family = "binomial")
+cvL1logR5 <- cv.glmnet(used_data, sub_ChickWeight1$Bweight, family = "binomial", nfolds = 5)
+plot(cvL1logR5, main = "L-1 logistic regression")
+lambda <-cvL1logR5$lambda.min
+lambda
+used_model <- cvL1logR5$glmnet.fit
+coef_result <- coef(used_model, lambda)
+coef_result
+coef_result <- coef(used_model, 0.06)
+coef_result
+coef_result <- coef(used_model, 0)
+coef_result
+data("ChickWeight")
+ChickWeight$Weight <- rep(0, dim(ChickWeight)[1])
+ChickWeight$Weight[ChickWeight$weight > 215] <- 1
+sub_day21 <- subset(ChickWeight, Diet %in% c(1, 4) & Time == 21)
+sub_day21$Group <- rep(0, dim(sub_day21)[1])
+sub_day21$Group[sub_day21$Diet ==1] <- 1
+log1 <- glm(Weight~Group, family = "binomial", data = sub_day21)
+summary(log1)
+BirthWeight <- subset(ChickWeight, select = c(weight, Chick), Time ==0)
+names(BirthWeight)[names(BirthWeight) == "weight"] <- "BirthWeight"
+sub_day21 <- merge(sub_day21, BirthWeight, by.y = "Chick")
+log2 <- glm(Weight~Group + BirthWeight, family = "binomial", data = sub_day21)
+summary(log2)
+data <- as.matrix(subset(sub_day21, select = c(BirthWeight, Group)))
+colnames(data) <- c("BirthWeight", "Group")
+library(glmnet)
+L1 <- glmnet(data,sub_day21$Weight, family = "binomial")
+cvL1 <- cv.glmnet(data, sub_day21$Weight, family = "binomial", nfolds = 5)
+plot(cvL1, main = "L-1 logistic regression")
+lambda <-cvL1$lambda.min
+lambda
+model <- cvL1$glmnet.fit
+coeff<- coef(model, lambda)
+coeff
+data("ChickWeight")
+head(ChickWeight)
+dim(ChickWeight)
+# change weight to a binary variable
+ChickWeight$Bweight <- ifelse(ChickWeight$weight < 180, 1, 0)
+# select data with diet 1 and 4 on day 21
+index1 <- ChickWeight$Diet == 1 | ChickWeight$Diet == 2
+index2 <- ChickWeight$Time == 21
+sub_ChickWeight <- ChickWeight[index1 & index2, ]
+dim(sub_ChickWeight)
+sub_ChickWeight$Group <- ifelse(sub_ChickWeight$Diet ==1, 1, 0)
+logR1 <- glm(Bweight~Group, family = "binomial", data = sub_ChickWeight)
+summary(logR1)
+birthweight <- subset(ChickWeight, select = c(weight, Chick), Time == 0)
+names(birthweight) <- c("BirthWeight", "Chick")
+# combine the data
+sub_ChickWeight1 <- merge(sub_ChickWeight, birthweight, by.y = "Chick")
+logR2 <- glm(Bweight~Group+BirthWeight, family = "binomial", data = sub_ChickWeight1)
+summary(logR2)
+sub_ChickWeight2 <- ChickWeight[ChickWeight$Time == 21, ]
+sub_ChickWeight2$Group1 <- ifelse(sub_ChickWeight2$Diet ==1, 1, 0)
+sub_ChickWeight2$Group2 <- ifelse(sub_ChickWeight2$Diet ==2, 1, 0)
+sub_ChickWeight2$Group3 <- ifelse(sub_ChickWeight2$Diet ==3, 1, 0)
+logR3 <- glm(Bweight~Group1 + Group2 + Group3, family = "binomial", data = sub_ChickWeight2)
+summary(logR3)
+sub_ChickWeight3 <- merge(sub_ChickWeight2, birthweight, by.y = "Chick")
+logR4 <- glm(Bweight~Group1 + Group2 + Group3 + BirthWeight, family = "binomial", data = sub_ChickWeight3)
+summary(logR4)
+# choose the best lambda
+library(glmnet)
+# select data with adjusting for BirthWeight
+used_data <- as.matrix(sub_ChickWeight1[, c(7, 6)])
+colnames(used_data) <- c("BirthWeight", "Group")
+# L-1 regularized regression
+L1logR5 <- glmnet(used_data, sub_ChickWeight1$Bweight, family = "binomial")
+cvL1logR5 <- cv.glmnet(used_data, sub_ChickWeight1$Bweight, family = "binomial", nfolds = 5)
+plot(cvL1logR5, main = "L-1 logistic regression")
+lambda <-cvL1logR5$lambda.min
+lambda
+used_model <- cvL1logR5$glmnet.fit
+coef_result <- coef(used_model, lambda)
+coef_result
+lambda
+coef_result
+# choose the best lambda
+library(glmnet)
+# select data with adjusting for BirthWeight
+used_data <- as.matrix(sub_ChickWeight1[, c(7, 6)])
+colnames(used_data) <- c("BirthWeight", "Group")
+# L-1 regularized regression
+L1logR5 <- glmnet(used_data, sub_ChickWeight1$Bweight, family = "binomial")
+cvL1logR5 <- cv.glmnet(used_data, sub_ChickWeight1$Bweight, family = "binomial", nfolds = 6)
+plot(cvL1logR5, main = "L-1 logistic regression")
+lambda <-cvL1logR5$lambda.min
+lambda
+used_model <- cvL1logR5$glmnet.fit
+coef_result <- coef(used_model, lambda)
+coef_result
+knitr::opts_chunk$set(echo = TRUE)
+data("ChickWeight")
+# head(ChickWeight)
+# dim(ChickWeight)
+# change weight to a binary variable
+ChickWeight$Bweight <- ifelse(ChickWeight$weight < 180, 1, 0)
+# select data with diet 1 and 4 on day 21
+index1 <- ChickWeight$Diet == 1 | ChickWeight$Diet == 2
+index2 <- ChickWeight$Time == 21
+sub_ChickWeight <- ChickWeight[index1 & index2, ]
+sub_ChickWeight$Group <- ifelse(sub_ChickWeight$Diet ==1, 1, 0)
+logR1 <- glm(Bweight~Group, family = "binomial", data = sub_ChickWeight)
+summary(logR1)
+birthweight <- subset(ChickWeight, select = c(weight, Chick), Time == 0)
+names(birthweight) <- c("BirthWeight", "Chick")
+# combine the data
+sub_ChickWeight1 <- merge(sub_ChickWeight, birthweight, by.y = "Chick")
+logR2 <- glm(Bweight~Group+BirthWeight, family = "binomial", data = sub_ChickWeight1)
+summary(logR2)
+sub_ChickWeight2 <- ChickWeight[ChickWeight$Time == 21, ]
+sub_ChickWeight2$Group1 <- ifelse(sub_ChickWeight2$Diet ==1, 1, 0)
+sub_ChickWeight2$Group2 <- ifelse(sub_ChickWeight2$Diet ==2, 1, 0)
+sub_ChickWeight2$Group3 <- ifelse(sub_ChickWeight2$Diet ==3, 1, 0)
+logR3 <- glm(Bweight~Group1 + Group2 + Group3, family = "binomial", data = sub_ChickWeight2)
+summary(logR3)
+sub_ChickWeight2 <- ChickWeight[ChickWeight$Time == 21, ]
+sub_ChickWeight2$Group1 <- ifelse(sub_ChickWeight2$Diet ==1, 1, 0)
+sub_ChickWeight2$Group2 <- ifelse(sub_ChickWeight2$Diet ==2, 1, 0)
+sub_ChickWeight2$Group3 <- ifelse(sub_ChickWeight2$Diet ==3, 1, 0)
+logR3 <- glm(Bweight~Group1 + Group2 + Group3, family = "binomial", data = sub_ChickWeight2)
+summary(logR3)
+sub_ChickWeight3 <- merge(sub_ChickWeight2, birthweight, by.y = "Chick")
+logR4 <- glm(Bweight~Group1 + Group2 + Group3 + BirthWeight, family = "binomial", data = sub_ChickWeight3)
+summary(logR4)
+# choose the best lambda
+set.seed(1)
+library(glmnet)
+# select data with adjusting for BirthWeight
+used_data <- as.matrix(sub_ChickWeight1[, c(7, 6)])
+colnames(used_data) <- c("BirthWeight", "Group")
+# L-1 regularized regression
+L1logR5 <- glmnet(used_data, sub_ChickWeight1$Bweight, family = "binomial")
+cvL1logR5 <- cv.glmnet(used_data, sub_ChickWeight1$Bweight, family = "binomial", nfolds = 6)
+plot(cvL1logR5, main = "L-1 logistic regression")
+lambda <-cvL1logR5$lambda.min
+lambda
+used_model <- cvL1logR5$glmnet.fit
+coef_result <- coef(used_model, lambda)
+coef_result
+100000/95*100
+0.01*30+8.7
+runif(3,0,1)
+sum(runif(3,0,1))
+a <- runif(3,0,1)
+total <- sum(a)
+v1 <- a[1]/total
+v2 <- a[2]/total
+v3 <- a[3]/total
+sum(v1, v2, v3)
+data <- runif(3,0,100)
+total <- sum(data)
+for (i in 1:len(data)) {
+}
+data <- runif(3,0,100)
+total <- sum(data)
+sum100data <- NULL
+for (i in 1:3){
+sum100data[i] <- data[i]/total
+}
+sum100data
+data
+data <- runif(3,0,1)
+total <- sum(data)
+sum100data <- NULL
+for (i in 1:3){
+sum100data[i] <- data[i]/total*100
+}
+sum100data
+sum(sum100data)
+data <- runif(3,0,100)
+total <- sum(data)
+for (i in 1:3){
+sum100data[i] <- data[i]/total
+}
+sum100data
+data <- runif(3,0,1)
+total <- sum(data)
+sum100data <- NULL
+for (i in 1:3){
+sum100data[i] <- data[i]/total
+}
+sum100data
+data <- runif(3,0,1)
+total <- sum(data)
+sum100data <- NULL
+for (i in 1:3){
+sum100data[i] <- data[i]/total*100
+}
+sum100data
+sum(sum100data)
+setwd("~/Desktop/DataFest")
+fire <- read.csv("train")
+fire <- read.csv("train.csv")
+View(fire)
+unique(fire$target)
+corr(fire)
+cor(fire)
+setwd("~/Desktop/DataFest")
+EQ <- read.csv("EQ.csv")
+dim(EQ)
+View(EQ)
+EQ$nst==NA
+EQ$nst=='NA'
+setwd("~/Desktop/DataFest")
+EQ <- read.csv("EQ.csv")
+mo <- lm(horizontalError~., data = EQ)
+summary(mo)
+install.packages("shiny")
+library(shiny)
+library(shiny)
+ui <- fluidPage()
+server <- function(input, output){}
+shinyApp(ui = ui, server = server)
+ui <- fluidPage("Hello World")
+server <- function(input, output){}
+shinyApp(ui = ui, server = server)
+library(shiny)
+ui <- fluidPage(
+sliderInput(inputId = "num",
+label = "Choose a number",
+value = 14, min = 0, max = 100)
+# input() function
+# output() function
+)
+server <- function(input, output){}
+shinyApp(ui = ui, server = server)
+help("radioButtons")
+library(shiny)
+ui <- fluidPage(
+sliderInput(inputId = "num",
+label = "Choose a number",
+value = 14, min = 0, max = 100)
+radioButtons(inputId = "country", label = "choose a country", choices = c("US", "UK"))
+# inputId: name of input
+# input() function
+# output() function
+)
+server <- function(input, output){}
+shinyApp(ui = ui, server = server)
+library(shiny)
+ui <- fluidPage(
+sliderInput(inputId = "num",
+label = "Choose a number",
+value = 14, min = 0, max = 100)
+radioButtons(inputId = "country", label = "choose a country", choices = list("US", "UK"))
+# inputId: name of input
+# input() function
+# output() function
+)
+server <- function(input, output){}
+shinyApp(ui = ui, server = server)
+library(shiny)
+ui <- fluidPage(
+sliderInput(inputId = "num",
+label = "Choose a number",
+value = 14, min = 0, max = 100)
+plotOutput("hist")
+)
+server <- function(input, output){}
+shinyApp(ui = ui, server = server)
+library(shiny)
+ui <- fluidPage(
+sliderInput(inputId = "num",
+label = "Choose a number",
+value = 14, min = 0, max = 100),
+plotOutput("hist")
+)
+server <- function(input, output){}
+shinyApp(ui = ui, server = server)
+library(shiny)
+ui <- fluidPage(
+sliderInput(inputId = "num",
+label = "Choose a number",
+value = 14, min = 0, max = 100),
+plotOutput("hist")
+)
+# tell the server how to use input to get output
+server <- function(input, output){
+# need to save output$hist: same name in the output
+output$hist <- renderPlot({
+title <- "Histogram of input"
+hist(rnorm(input$num), main = title)}) # render+Type of object
+# + code buliding the object
+}
+shinyApp(ui = ui, server = server)
+runApp('R')
+runApp('R')
+devtools::install_github("rstudio/shinyapps")
+devtools::install_github("rstudio/shinyapps")
+install.packages("devtools")
+devtools::install_github("rstudio/shinyapps")
+install.packages("devtools")
+install.packages("devtools")
+devtools::install_github("rstudio/shinyapps")
+rsconnect::setAccountInfo(name='datafest', token='C23CE7C79C213CED6D5E84C72FE46ACB', secret='vbd/4HW6k1FT89/zoI73lmKXXz0CrP3guri7Q0gs')
+install.package("rsconnect")
+install.packages("rsconnect")
+rsconnect::setAccountInfo(name='datafest', token='C23CE7C79C213CED6D5E84C72FE46ACB', secret='vbd/4HW6k1FT89/zoI73lmKXXz0CrP3guri7Q0gs')
+shiny::runApp('R')
+help(sliderInput)
+runApp('R')
+runApp('R')
+runApp('R')
+runApp('R')
+runApp('R')
+runApp('R')
+runApp('R')
+runApp('R')
+rsconnect::setAccountInfo(name='datafest', token='C23CE7C79C213CED6D5E84C72FE46ACB', secret='vbd/4HW6k1FT89/zoI73lmKXXz0CrP3guri7Q0gs')
+runApp('R')
+rsconnect::setAccountInfo(name='datafest', token='C23CE7C79C213CED6D5E84C72FE46ACB', secret='vbd/4HW6k1FT89/zoI73lmKXXz0CrP3guri7Q0gs')
+runApp('R')
+runApp('R')
+runApp('R/app1.R')
+rsconnect::setAccountInfo(name='datafest', token='C23CE7C79C213CED6D5E84C72FE46ACB', secret='vbd/4HW6k1FT89/zoI73lmKXXz0CrP3guri7Q0gs')
+runApp('R/app1.R')
+runApp('R')
+shiny::runApp('R')
+source('ddd.R')
+source('ddd.R')
+source('ddd.R')
+source('w1/ddd.R')
+rsconnect::setAccountInfo(name='datafest', token='C23CE7C79C213CED6D5E84C72FE46ACB', secret='vbd/4HW6k1FT89/zoI73lmKXXz0CrP3guri7Q0gs')
+source('w1/ddd.R')
+source('w1/ui.R')
+runApp('w1')
+source('w1/ui.R')
+source('w1/ui.R')
+runApp('w1')
+runApp('w1')

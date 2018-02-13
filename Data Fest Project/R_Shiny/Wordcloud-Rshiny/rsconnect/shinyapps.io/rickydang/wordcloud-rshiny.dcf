@@ -1,0 +1,10 @@
+name: wordcloud-rshiny
+title:
+username:
+account: rickydang
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 231980
+bundleId: 1059323
+url: https://rickydang.shinyapps.io/wordcloud-rshiny/
+when: 1509838376.81122

@@ -1,0 +1,30 @@
+TS <- read.csv("Historical_Tsunami.csv")#
+TS <- TS[TS$YEAR >= 1967,]
+setwd("~/Desktop/DataFest")
+TS <- read.csv("Historical_Tsunami.csv")#
+TS <- TS[TS$YEAR >= 1967,]
+getcountry <- function(vec){#
+  lon <- vec[1]#
+  lat <- vec[2]#
+  key <- as.vector(revgeocode(c(lon, lat)))#
+  # key <- as.character(unlist(strsplit(key,", ")))#
+  # n <- length(key)#
+  # out <- key[n]#
+  return (key)#
+}
+location <- TS[,c("LONGITUDE","LATITUDE")]#
+bb <- NULL#
+bb <- apply(location, 1, getcountry)#
+location$bb <- bb#
+bb_col <- as.character(location[,"bb"])#
+split <- sapply(strsplit(bb_col,", "),"[")#
+split1 <- mapply('[[', split, lengths(split))
+location <- TS[,c("LONGITUDE","LATITUDE")]
+bb <- NULL
+bb <- apply(location, 1, getcountry)
+install.packages("ggmap")
+bb <- apply(location, 1, getcountry)
+library(ggmap)
+install.packages("ggplot2")
+library(ggmap)
+bb <- apply(location, 1, getcountry)

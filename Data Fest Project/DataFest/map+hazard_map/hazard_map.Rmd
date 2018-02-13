@@ -1,0 +1,27 @@
+---
+title: "Untitled"
+author: "Sile Yang"
+date: "November 5, 2017"
+output:
+  html_document: default
+  word_document: default
+  pdf_document: default
+---
+```{r}
+usa<-read.csv("US.csv")
+library(ggmap)
+alaska<- c(lon= -170,lat=60)
+usa_map <- get_map(location=alaska,zoom=4)
+ggmap(usa_map)
+
+
+
+```
+
+```{r}
+ggmap(usa_map, extent = "R") + geom_density2d(data=usa_alaska,aes(x=longitude,y=latitude),size=0.1) + 
+  stat_density2d(data=usa_alaska,aes(x=longitude,y=latitude,fill=..level..,alpha=..level..),size=0.01,bins=10,geom="polygon")+
+  scale_fill_gradient(low="green",high="red",guide=FALSE)+scale_alpha(range=c(0,0.5),guide=FALSE)
+
+```
+

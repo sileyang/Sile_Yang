@@ -1,0 +1,512 @@
+used_data <- data[, c("mag", "year")]
+used_data$country <- rep("greece", dim(used_data)[1])
+T <- 50
+used_data <- used_data[used_data$year >= 1967, ]
+Mag <- c(6.5, 7.0, 7.5)
+N <- NULL
+N1 <- NULL
+vec <- NULL
+s <- NULL
+R  <- NULL
+getpd <- function(Mag, T, df) {
+for (i in 1:length(Mag)){
+N[i] <- sum(df$mag >= Mag[i])
+s[i] <- -log(base = 10, T)
+R[i] <- 10^(-0.2 + 0.36*Mag[i])
+}
+vec <- data.frame(cbind(Mag, N, s, R))
+return(vec)
+}
+d1 <- getpd(Mag = Mag, T = T, df = used_data)
+R <- d1$R
+mo <- lm(log(base = 10, N)~Mag, data = d1)
+data <- read.csv("russia.csv")
+data$year <- substr(data$time, 1, 4)
+used_data <- data[, c("mag", "year")]
+used_data$country <- rep("russia", dim(used_data)[1])
+T <- 50
+used_data <- used_data[used_data$year >= 1967, ]
+Mag <- c(6.5, 7.0, 7.5)
+N <- NULL
+N1 <- NULL
+vec <- NULL
+s <- NULL
+R  <- NULL
+getpd <- function(Mag, T, df) {
+for (i in 1:length(Mag)){
+N[i] <- sum(df$mag >= Mag[i])
+s[i] <- -log(base = 10, T)
+R[i] <- 10^(-0.2 + 0.36*Mag[i])
+}
+vec <- data.frame(cbind(Mag, N, s, R))
+return(vec)
+}
+d1 <- getpd(Mag = Mag, T = T, df = used_data)
+R <- d1$R
+mo <- lm(log(base = 10, N)~Mag, data = d1)
+a <- mo$coefficients[1]
+b <- mo$coefficients[2]
+s <- d1$s[1]
+logn1 <- a+b*d1$Mag +s
+nn <- 10^(logn1)
+# return period
+RP <- 1/nn
+pron <- function(t){
+prob <- 1-exp(-nn*t)
+return (prob)
+}
+result <- matrix(0, ncol = 4, nrow = 80)
+for (i in 1: 80) {
+result[i, ] <- c(pron(i),i)
+}
+result <- data.frame(result)
+colnames(result) <- c("M6_5", "M7", "M7_5", "t")
+d1 <- cbind(result$t, result$M6_5)
+d2 <- cbind(result$t, result$M7)
+d3 <- cbind(result$t, result$M7_5)
+f_data <- data.frame(rbind(d1, d2, d3))
+name <- c(rep(6.5, 80), rep(7.0, 80), rep(7.5, 80))
+f_data$Country <- rep("russia", 80*3)
+f_data$Mag <- name
+f_data$Radius <- c(rep(R[1], 80), rep(R[2], 80), rep(R[3], 80))
+f_data$RP <- c(rep(RP[1], 80), rep(RP[2], 80), rep(RP[3], 80))
+f_data$S <- rep(s, 80*3)
+colnames(f_data) <- c("t", "pd", "Country", "Mag", "R", "PR", "S")
+write.csv(f_data, file = "russia_pd.csv")
+data <- read.csv("antarctic.csv")
+data$year <- substr(data$time, 1, 4)
+used_data <- data[, c("mag", "year")]
+used_data$country <- rep("antarctic", dim(used_data)[1])
+T <- 50
+used_data <- used_data[used_data$year >= 1967, ]
+Mag <- c(6.5, 7.0, 7.5)
+N <- NULL
+N1 <- NULL
+vec <- NULL
+s <- NULL
+R  <- NULL
+getpd <- function(Mag, T, df) {
+for (i in 1:length(Mag)){
+N[i] <- sum(df$mag >= Mag[i])
+s[i] <- -log(base = 10, T)
+R[i] <- 10^(-0.2 + 0.36*Mag[i])
+}
+vec <- data.frame(cbind(Mag, N, s, R))
+return(vec)
+}
+d1 <- getpd(Mag = Mag, T = T, df = used_data)
+R <- d1$R
+mo <- lm(log(base = 10, N)~Mag, data = d1)
+data <- read.csv("xizang.csv")
+data$year <- substr(data$time, 1, 4)
+used_data <- data[, c("mag", "year")]
+used_data$country <- rep("xizang", dim(used_data)[1])
+T <- 50
+used_data <- used_data[used_data$year >= 1967, ]
+Mag <- c(6.5, 7.0, 7.5)
+N <- NULL
+N1 <- NULL
+vec <- NULL
+s <- NULL
+R  <- NULL
+getpd <- function(Mag, T, df) {
+for (i in 1:length(Mag)){
+N[i] <- sum(df$mag >= Mag[i])
+s[i] <- -log(base = 10, T)
+R[i] <- 10^(-0.2 + 0.36*Mag[i])
+}
+vec <- data.frame(cbind(Mag, N, s, R))
+return(vec)
+}
+d1 <- getpd(Mag = Mag, T = T, df = used_data)
+R <- d1$R
+mo <- lm(log(base = 10, N)~Mag, data = d1)
+a <- mo$coefficients[1]
+b <- mo$coefficients[2]
+s <- d1$s[1]
+logn1 <- a+b*d1$Mag +s
+nn <- 10^(logn1)
+# return period
+RP <- 1/nn
+pron <- function(t){
+prob <- 1-exp(-nn*t)
+return (prob)
+}
+result <- matrix(0, ncol = 4, nrow = 80)
+for (i in 1: 80) {
+result[i, ] <- c(pron(i),i)
+}
+result <- data.frame(result)
+colnames(result) <- c("M6_5", "M7", "M7_5", "t")
+d1 <- cbind(result$t, result$M6_5)
+d2 <- cbind(result$t, result$M7)
+d3 <- cbind(result$t, result$M7_5)
+f_data <- data.frame(rbind(d1, d2, d3))
+name <- c(rep(6.5, 80), rep(7.0, 80), rep(7.5, 80))
+f_data$Country <- rep("xizang", 80*3)
+f_data$Mag <- name
+f_data$Radius <- c(rep(R[1], 80), rep(R[2], 80), rep(R[3], 80))
+f_data$RP <- c(rep(RP[1], 80), rep(RP[2], 80), rep(RP[3], 80))
+f_data$S <- rep(s, 80*3)
+colnames(f_data) <- c("t", "pd", "Country", "Mag", "R", "PR", "S")
+write.csv(f_data, file = "xizang_pd.csv")
+data <- read.csv("turkey.csv")
+data$year <- substr(data$time, 1, 4)
+used_data <- data[, c("mag", "year")]
+used_data$country <- rep("turkey", dim(used_data)[1])
+T <- 50
+used_data <- used_data[used_data$year >= 1967, ]
+Mag <- c(6.5, 7.0, 7.5)
+N <- NULL
+N1 <- NULL
+vec <- NULL
+s <- NULL
+R  <- NULL
+getpd <- function(Mag, T, df) {
+for (i in 1:length(Mag)){
+N[i] <- sum(df$mag >= Mag[i])
+s[i] <- -log(base = 10, T)
+R[i] <- 10^(-0.2 + 0.36*Mag[i])
+}
+vec <- data.frame(cbind(Mag, N, s, R))
+return(vec)
+}
+d1 <- getpd(Mag = Mag, T = T, df = used_data)
+R <- d1$R
+mo <- lm(log(base = 10, N)~Mag, data = d1)
+a <- mo$coefficients[1]
+b <- mo$coefficients[2]
+s <- d1$s[1]
+logn1 <- a+b*d1$Mag +s
+nn <- 10^(logn1)
+# return period
+RP <- 1/nn
+pron <- function(t){
+prob <- 1-exp(-nn*t)
+return (prob)
+}
+result <- matrix(0, ncol = 4, nrow = 80)
+for (i in 1: 80) {
+result[i, ] <- c(pron(i),i)
+}
+result <- data.frame(result)
+colnames(result) <- c("M6_5", "M7", "M7_5", "t")
+d1 <- cbind(result$t, result$M6_5)
+d2 <- cbind(result$t, result$M7)
+d3 <- cbind(result$t, result$M7_5)
+f_data <- data.frame(rbind(d1, d2, d3))
+name <- c(rep(6.5, 80), rep(7.0, 80), rep(7.5, 80))
+f_data$Country <- rep("turkey", 80*3)
+f_data$Mag <- name
+f_data$Radius <- c(rep(R[1], 80), rep(R[2], 80), rep(R[3], 80))
+f_data$RP <- c(rep(RP[1], 80), rep(RP[2], 80), rep(RP[3], 80))
+f_data$S <- rep(s, 80*3)
+colnames(f_data) <- c("t", "pd", "Country", "Mag", "R", "PR", "S")
+write.csv(f_data, file = "turkey_pd.csv")
+data <- read.csv("mac.csv")
+data$year <- substr(data$time, 1, 4)
+used_data <- data[, c("mag", "year")]
+used_data$country <- rep("mac", dim(used_data)[1])
+T <- 50
+used_data <- used_data[used_data$year >= 1967, ]
+Mag <- c(6.5, 7.0, 7.5)
+N <- NULL
+N1 <- NULL
+vec <- NULL
+s <- NULL
+R  <- NULL
+getpd <- function(Mag, T, df) {
+for (i in 1:length(Mag)){
+N[i] <- sum(df$mag >= Mag[i])
+s[i] <- -log(base = 10, T)
+R[i] <- 10^(-0.2 + 0.36*Mag[i])
+}
+vec <- data.frame(cbind(Mag, N, s, R))
+return(vec)
+}
+d1 <- getpd(Mag = Mag, T = T, df = used_data)
+R <- d1$R
+mo <- lm(log(base = 10, N)~Mag, data = d1)
+a <- mo$coefficients[1]
+b <- mo$coefficients[2]
+s <- d1$s[1]
+logn1 <- a+b*d1$Mag +s
+nn <- 10^(logn1)
+# return period
+RP <- 1/nn
+pron <- function(t){
+prob <- 1-exp(-nn*t)
+return (prob)
+}
+result <- matrix(0, ncol = 4, nrow = 80)
+for (i in 1: 80) {
+result[i, ] <- c(pron(i),i)
+}
+result <- data.frame(result)
+colnames(result) <- c("M6_5", "M7", "M7_5", "t")
+d1 <- cbind(result$t, result$M6_5)
+d2 <- cbind(result$t, result$M7)
+d3 <- cbind(result$t, result$M7_5)
+f_data <- data.frame(rbind(d1, d2, d3))
+name <- c(rep(6.5, 80), rep(7.0, 80), rep(7.5, 80))
+f_data$Country <- rep("mac", 80*3)
+f_data$Mag <- name
+f_data$Radius <- c(rep(R[1], 80), rep(R[2], 80), rep(R[3], 80))
+f_data$RP <- c(rep(RP[1], 80), rep(RP[2], 80), rep(RP[3], 80))
+f_data$S <- rep(s, 80*3)
+colnames(f_data) <- c("t", "pd", "Country", "Mag", "R", "PR", "S")
+write.csv(f_data, file = "mac_pd.csv")
+data <- read.csv("nicaragua.csv")
+data$year <- substr(data$time, 1, 4)
+used_data <- data[, c("mag", "year")]
+used_data$country <- rep("nicaragua", dim(used_data)[1])
+T <- 50
+used_data <- used_data[used_data$year >= 1967, ]
+Mag <- c(6.5, 7.0, 7.5)
+N <- NULL
+N1 <- NULL
+vec <- NULL
+s <- NULL
+R  <- NULL
+getpd <- function(Mag, T, df) {
+for (i in 1:length(Mag)){
+N[i] <- sum(df$mag >= Mag[i])
+s[i] <- -log(base = 10, T)
+R[i] <- 10^(-0.2 + 0.36*Mag[i])
+}
+vec <- data.frame(cbind(Mag, N, s, R))
+return(vec)
+}
+d1 <- getpd(Mag = Mag, T = T, df = used_data)
+R <- d1$R
+mo <- lm(log(base = 10, N)~Mag, data = d1)
+a <- mo$coefficients[1]
+b <- mo$coefficients[2]
+s <- d1$s[1]
+logn1 <- a+b*d1$Mag +s
+nn <- 10^(logn1)
+# return period
+RP <- 1/nn
+pron <- function(t){
+prob <- 1-exp(-nn*t)
+return (prob)
+}
+result <- matrix(0, ncol = 4, nrow = 80)
+for (i in 1: 80) {
+result[i, ] <- c(pron(i),i)
+}
+result <- data.frame(result)
+colnames(result) <- c("M6_5", "M7", "M7_5", "t")
+d1 <- cbind(result$t, result$M6_5)
+d2 <- cbind(result$t, result$M7)
+d3 <- cbind(result$t, result$M7_5)
+f_data <- data.frame(rbind(d1, d2, d3))
+name <- c(rep(6.5, 80), rep(7.0, 80), rep(7.5, 80))
+f_data$Country <- rep("nicaragua", 80*3)
+f_data$Mag <- name
+f_data$Radius <- c(rep(R[1], 80), rep(R[2], 80), rep(R[3], 80))
+f_data$RP <- c(rep(RP[1], 80), rep(RP[2], 80), rep(RP[3], 80))
+f_data$S <- rep(s, 80*3)
+colnames(f_data) <- c("t", "pd", "Country", "Mag", "R", "PR", "S")
+write.csv(f_data, file = "nicaragua_pd.csv")
+setwd("~/Desktop/DataFest/pds")
+file_names <- dir("~/Desktop/DataFest/pds")
+myMergedData <- do.call(rbind,
+lapply(file_names, read.csv))
+myMergedData <- myMergedData[, -1]
+write.csv(myMergedData, file = "all_pd.csv")
+file_names
+myMergedData <- do.call(rbind,lapply(file_names, read.csv))
+file_names
+myMergedData <- do.call(rbind,lapply(file_names, read.csv))
+setwd("~/Desktop/DataFest/pds/ppp")
+file_names <- dir("~/Desktop/DataFest/pds/ppp")
+file_names
+myMergedData <- do.call(rbind,lapply(file_names, read.csv))
+file_names <- dir("~/Desktop/DataFest/pds/ppp")
+myMergedData <- do.call(rbind,lapply(file_names, read.csv))
+file_names <- dir("~/Desktop/DataFest/pds/ppp")
+myMergedData <- do.call(rbind,lapply(file_names, read.csv))
+setwd("~/Desktop/DataFest/pds")
+file_names <- dir("~/Desktop/DataFest/pds")
+myMergedData <- do.call(rbind,lapply(file_names, read.csv))
+myMergedData <- myMergedData[, -1]
+write.csv(myMergedData, file = "all_pd.csv")
+setwd("~/Desktop/DataFest")
+write.csv(myMergedData, file = "all_pd.csv")
+data <- read.csv("all_pf.csv")[-1]
+setwd("~/Desktop/DataFest")
+data <- read.csv("all_pf.csv")[-1]
+data <- read.csv("all_pd.csv")[-1]
+View(data)
+data$Country <- as.factor(data$Country)
+data_all <- read.csv("all_pd.csv")[-1]
+shiny::runApp('PD')
+rsconnect::setAccountInfo(name='rickydang', token='DEC3B9EFB5C6FA36F5B0013E601D9FFB', secret='6j7+S8EOyUAtq5pMUE3YUmA+MYx8Olb6ykeDjdOH')
+runApp('PD')
+data <- read.csv("all_pd.csv")[-1]
+data$Country <- as.factor(data$Country)
+data_all <- read.csv("all_pd.csv")[-1]
+runApp('PD1')
+runApp('PD1')
+runApp('PD1')
+all_pd <- read.csv("all_pd.csv",header=T)
+all_pd$n1 <- 1/all_pd$PR
+prob <- NULL
+a <- NULL
+n1_a1 <- NULL
+area_pd <- function(a,t){
+area <- a^2
+n1_a1 <- all_pd$n1*area/(all_pd$R^2)
+out <- cbind(all_pd,n1_a1)
+return(out)
+}
+a= 20
+t =5=
+)
+t = 50
+area_pd(a, t)
+dim(out)
+out <- area_pd(a, t)
+dim(out)
+prob[i] <- 1-exp(-all_pd$t[i]*n1_a1[i])
+prob
+all_pd$t
+setwd("~/Desktop/PD1")
+setwd("~/Desktop/DataFest/PD1")
+data <- read.csv("all_pd1.csv")[-1]
+data$Country <- as.factor(data$Country)
+data_all <- read.csv("all_pd1.csv")[-1]
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+setwd("~/Desktop/DataFest/mapppp")
+runApp()
+install.packages("leaflet")
+install.packages("RColorBrewer")
+install.packages("RColorBrewer")
+shiny::runApp()
+install.packages("shiny")
+install.packages("shiny")
+shiny::runApp()
+library(RColorBrewer)
+library(leaflet)
+library(tidyverse)
+library(shiny)
+runApp()
+earthquakes<-read.csv("US.csv")
+runApp()
+setwd("~/Desktop/DataFest/DATA")
+knitr::opts_chunk$set(echo = TRUE)
+setwd("~/Desktop/DataFest/DATA")
+EQ <- read.csv("EQ.csv")
+VO <- read.csv("Volcano_Events.csv")
+VO <- VO[VO$Year >= 1967,]
+EQ$year <- as.numeric(substr(EQ$X...time, 1, 4))
+EQ$month <- as.numeric(substr(EQ$X...time, 6, 7))
+EQ$day <- as.numeric(substr(EQ$X...time, 9, 10))
+EQ <- EQ[EQ$year >= 1967, ]
+# get the country for earthquake:
+EQ$place_col <- as.character(EQ[,"place"])
+EQ$country <- sapply(strsplit(EQ$place_col,", "),"[",2)
+index <- is.na(EQ$country)
+EQ$country[index] <- EQ$place_col[index]
+#TS <-read.csv("Tsunami.csv", header = T,sep="\t")
+#TS <- TS[TS$X...Year >= 1967,]
+##########
+# get the country for TS:
+getcountry <- function(vec){
+lon <- vec[1]
+lat <- vec[2]
+key <- as.vector(revgeocode(c(lon, lat)))
+# key <- as.character(unlist(strsplit(key,", ")))
+# n <- length(key)
+# out <- key[n]
+return (key)
+}
+location <- TS[,c("LONGITUDE","LATITUDE")]
+setwd("~/Desktop/DataFest/DATA")
+EQ <- read.csv("EQ.csv")
+VO <- read.csv("Volcano_Events.csv")
+VO <- VO[VO$Year >= 1967,]
+EQ$year <- as.numeric(substr(EQ$X...time, 1, 4))
+EQ$month <- as.numeric(substr(EQ$X...time, 6, 7))
+EQ$day <- as.numeric(substr(EQ$X...time, 9, 10))
+EQ <- EQ[EQ$year >= 1967, ]
+# get the country for earthquake:
+EQ$place_col <- as.character(EQ[,"place"])
+EQ$country <- sapply(strsplit(EQ$place_col,", "),"[",2)
+index <- is.na(EQ$country)
+EQ$country[index] <- EQ$place_col[index]
+#TS <-read.csv("Tsunami.csv", header = T,sep="\t")
+#TS <- TS[TS$X...Year >= 1967,]
+##########
+# get the country for TS:
+getcountry <- function(vec){
+lon <- vec[1]
+lat <- vec[2]
+key <- as.vector(revgeocode(c(lon, lat)))
+# key <- as.character(unlist(strsplit(key,", ")))
+# n <- length(key)
+# out <- key[n]
+return (key)
+}
+# combined data
+vo_select <- VO[, c("Year", "Mo", "Dy", "Country", "VEI")]
+vo_select$D <- rep("Volcano", dim(vo_select)[1])
+eq_select <- EQ[, c("year", "month", "day", "country", "magType")]
+eq_select$D <- rep("Earthquake", dim(eq_select)[1])
+colnames(vo_select) <- c("Year", "Month", "Day", "Country", "Type", "D_type")
+colnames(eq_select) <- c("Year", "Month", "Day", "Country", "Type", "D_type")
+#TS$D <- rep("Tsunami", dim(TS)[1])
+#colnames(TS) <- c("Year", "Month", "Day", "Country", "Type", "D_type")
+total <- data.frame(rbind(eq_select, vo_select))
+index <- grep("Visokoi Island", total$Country)
+total[index, "Country"] = "Visokoi Island"
+write.csv(total, file = "combined_eqvo.csv")
+# combined data
+vo_select <- VO[, c("Year", "Mo", "Dy", "Country", "VEI")]
+vo_select$D <- rep("Volcano", dim(vo_select)[1])
+eq_select <- EQ[, c("year", "month", "day", "country", "magType")]
+eq_select$D <- rep("Earthquake", dim(eq_select)[1])
+colnames(vo_select) <- c("Year", "Month", "Day", "Country", "Type", "D_type")
+colnames(eq_select) <- c("Year", "Month", "Day", "Country", "Type", "D_type")
+#TS$D <- rep("Tsunami", dim(TS)[1])
+#colnames(TS) <- c("Year", "Month", "Day", "Country", "Type", "D_type")
+total <- data.frame(rbind(eq_select, vo_select))
+index <- grep("Visokoi Island", total$Country)
+total[index, "Country"] = "Visokoi Island"
+write.csv(total, file = "combined_eqvo.csv")
+# combined data
+vo_select <- VO[, c("Year", "Mo", "Dy", "Country", "VEI")]
+vo_select$D <- rep("Volcano", dim(vo_select)[1])
+eq_select <- EQ[, c("year", "month", "day", "country", "magType")]
+eq_select$D <- rep("Earthquake", dim(eq_select)[1])
+colnames(vo_select) <- c("Year", "Month", "Day", "Country", "Type", "D_type")
+colnames(eq_select) <- c("Year", "Month", "Day", "Country", "Type", "D_type")
+#TS$D <- rep("Tsunami", dim(TS)[1])
+#colnames(TS) <- c("Year", "Month", "Day", "Country", "Type", "D_type")
+total <- data.frame(rbind(eq_select, vo_select))
+index <- grep("Visokoi Island", total$Country)
+total[index, "Country"] = "Visokoi Island"
+setwd("~/Desktop/DataFest/DATA")
+write.csv(total, file = "combined_eqvo.csv")
+setwd("~/Desktop/DataFest/DATA")
+write.csv(total, file = "combined_eqvo.csv")
+setwd("~/Desktop/DataFest/Frequency")
+runApp()
+runApp()
+data <- read.csv("combined_eqvo.csv")[, -1]
+runApp()
+runApp()
+runApp()
+runApp('~/Desktop/DataFest/Wordcloud')
+install.packages("tm")
+runApp('~/Desktop/DataFest/Wordcloud')
+install.packages("wordcloud")
+runApp('~/Desktop/DataFest/Wordcloud')

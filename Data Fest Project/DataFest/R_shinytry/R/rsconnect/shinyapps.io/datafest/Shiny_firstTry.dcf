@@ -1,0 +1,12 @@
+name: Shiny_firstTry
+title: Shiny_firstTry
+username:
+account: datafest
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 231841
+bundleId: 1058687
+url: https://datafest.shinyapps.io/Shiny_firstTry/
+when: 1509771912.50512
+asMultiple: FALSE
+asStatic: FALSE

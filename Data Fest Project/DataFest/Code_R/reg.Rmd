@@ -1,0 +1,805 @@
+---
+title: "eee"
+author: "YinchuWang UNI:yw2888"
+date: "11/5/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+data <- read.csv("US.csv")
+data$year <- substr(data$time, 1, 4)
+used_data <- data[, c("mag", "year")]
+used_data$country <- rep("USA", dim(used_data)[1])
+T <- 50
+used_data <- used_data[used_data$year >= 1967, ]
+Mag <- c(6.5, 7.0, 7.5)
+
+N <- NULL
+N1 <- NULL
+vec <- NULL
+s <- NULL
+R  <- NULL
+getpd <- function(Mag, T, df) {
+  for (i in 1:length(Mag)){
+    N[i] <- sum(df$mag >= Mag[i])
+    s[i] <- -log(base = 10, T)
+    R[i] <- 10^(-0.2 + 0.36*Mag[i])
+  }
+  vec <- data.frame(cbind(Mag, N, s, R))
+  
+  return(vec)
+}
+d1 <- getpd(Mag = Mag, T = T, df = used_data)
+R <- d1$R
+mo <- lm(log(base = 10, N)~Mag, data = d1)
+a <- mo$coefficients[1]
+b <- mo$coefficients[2]
+s <- d1$s[1]
+
+logn1 <- a+b*d1$Mag +s
+nn <- 10^(logn1)
+# return period
+RP <- 1/nn
+
+pron <- function(t){
+  prob <- 1-exp(-nn*t)
+  return (prob)
+}
+
+result <- matrix(0, ncol = 4, nrow = 80)
+for (i in 1: 80) {
+  result[i, ] <- c(pron(i),i)
+}
+result <- data.frame(result)
+
+colnames(result) <- c("M6_5", "M7", "M7_5", "t")
+
+d1 <- cbind(result$t, result$M6_5)
+d2 <- cbind(result$t, result$M7)
+d3 <- cbind(result$t, result$M7_5)
+
+f_data <- data.frame(rbind(d1, d2, d3))
+
+name <- c(rep(6.5, 80), rep(7.0, 80), rep(7.5, 80))
+f_data$Country <- rep("USA", 80*3)
+f_data$Mag <- name
+f_data$Radius <- c(rep(R[1], 80), rep(R[2], 80), rep(R[3], 80))
+f_data$RP <- c(rep(RP[1], 80), rep(RP[2], 80), rep(RP[3], 80))
+f_data$S <- rep(s, 80*3)
+colnames(f_data) <- c("t", "pd", "Country", "Mag", "R", "PR", "S")
+write.csv(f_data, file = "us_pd.csv")
+```
+
+```{r}
+data <- read.csv("japan.csv")
+data$year <- substr(data$time, 1, 4)
+used_data <- data[, c("mag", "year")]
+used_data$country <- rep("Japan", dim(used_data)[1])
+T <- 50
+used_data <- used_data[used_data$year >= 1967, ]
+Mag <- c(6.5, 7.0, 7.5)
+
+N <- NULL
+N1 <- NULL
+vec <- NULL
+s <- NULL
+R  <- NULL
+getpd <- function(Mag, T, df) {
+  for (i in 1:length(Mag)){
+    N[i] <- sum(df$mag >= Mag[i])
+    s[i] <- -log(base = 10, T)
+    R[i] <- 10^(-0.2 + 0.36*Mag[i])
+  }
+  vec <- data.frame(cbind(Mag, N, s, R))
+  
+  return(vec)
+}
+d1 <- getpd(Mag = Mag, T = T, df = used_data)
+R <- d1$R
+mo <- lm(log(base = 10, N)~Mag, data = d1)
+a <- mo$coefficients[1]
+b <- mo$coefficients[2]
+s <- d1$s[1]
+
+logn1 <- a+b*d1$Mag +s
+nn <- 10^(logn1)
+# return period
+RP <- 1/nn
+
+pron <- function(t){
+  prob <- 1-exp(-nn*t)
+  return (prob)
+}
+
+result <- matrix(0, ncol = 4, nrow = 80)
+for (i in 1: 80) {
+  result[i, ] <- c(pron(i),i)
+}
+result <- data.frame(result)
+
+colnames(result) <- c("M6_5", "M7", "M7_5", "t")
+
+d1 <- cbind(result$t, result$M6_5)
+d2 <- cbind(result$t, result$M7)
+d3 <- cbind(result$t, result$M7_5)
+
+f_data <- data.frame(rbind(d1, d2, d3))
+
+name <- c(rep(6.5, 80), rep(7.0, 80), rep(7.5, 80))
+f_data$Country <- rep("Japan", 80*3)
+f_data$Mag <- name
+f_data$Radius <- c(rep(R[1], 80), rep(R[2], 80), rep(R[3], 80))
+f_data$RP <- c(rep(RP[1], 80), rep(RP[2], 80), rep(RP[3], 80))
+f_data$S <- rep(s, 80*3)
+colnames(f_data) <- c("t", "pd", "Country", "Mag", "R", "PR", "S")
+write.csv(f_data, file = "japan_pd.csv")
+```
+
+
+```{r}
+data <- read.csv("fiji.csv")
+data$year <- substr(data$time, 1, 4)
+used_data <- data[, c("mag", "year")]
+used_data$country <- rep("Fiji", dim(used_data)[1])
+T <- 50
+used_data <- used_data[used_data$year >= 1967, ]
+Mag <- c(6.5, 7.0, 7.5)
+
+N <- NULL
+N1 <- NULL
+vec <- NULL
+s <- NULL
+R  <- NULL
+getpd <- function(Mag, T, df) {
+  for (i in 1:length(Mag)){
+    N[i] <- sum(df$mag >= Mag[i])
+    s[i] <- -log(base = 10, T)
+    R[i] <- 10^(-0.2 + 0.36*Mag[i])
+  }
+  vec <- data.frame(cbind(Mag, N, s, R))
+  
+  return(vec)
+}
+d1 <- getpd(Mag = Mag, T = T, df = used_data)
+R <- d1$R
+mo <- lm(log(base = 10, N)~Mag, data = d1)
+a <- mo$coefficients[1]
+b <- mo$coefficients[2]
+s <- d1$s[1]
+
+logn1 <- a+b*d1$Mag +s
+nn <- 10^(logn1)
+# return period
+RP <- 1/nn
+
+pron <- function(t){
+  prob <- 1-exp(-nn*t)
+  return (prob)
+}
+
+result <- matrix(0, ncol = 4, nrow = 80)
+for (i in 1: 80) {
+  result[i, ] <- c(pron(i),i)
+}
+result <- data.frame(result)
+
+colnames(result) <- c("M6_5", "M7", "M7_5", "t")
+
+d1 <- cbind(result$t, result$M6_5)
+d2 <- cbind(result$t, result$M7)
+d3 <- cbind(result$t, result$M7_5)
+
+f_data <- data.frame(rbind(d1, d2, d3))
+
+name <- c(rep(6.5, 80), rep(7.0, 80), rep(7.5, 80))
+f_data$Country <- rep("Fiji", 80*3)
+f_data$Mag <- name
+f_data$Radius <- c(rep(R[1], 80), rep(R[2], 80), rep(R[3], 80))
+f_data$RP <- c(rep(RP[1], 80), rep(RP[2], 80), rep(RP[3], 80))
+f_data$S <- rep(s, 80*3)
+colnames(f_data) <- c("t", "pd", "Country", "Mag", "R", "PR", "S")
+write.csv(f_data, file = "Fiji_pd.csv")
+```
+
+```{r}
+data <- read.csv("papua.csv")
+data$year <- substr(data$time, 1, 4)
+used_data <- data[, c("mag", "year")]
+used_data$country <- rep("papua", dim(used_data)[1])
+T <- 50
+used_data <- used_data[used_data$year >= 1967, ]
+Mag <- c(6.5, 7.0, 7.5)
+
+N <- NULL
+N1 <- NULL
+vec <- NULL
+s <- NULL
+R  <- NULL
+getpd <- function(Mag, T, df) {
+  for (i in 1:length(Mag)){
+    N[i] <- sum(df$mag >= Mag[i])
+    s[i] <- -log(base = 10, T)
+    R[i] <- 10^(-0.2 + 0.36*Mag[i])
+  }
+  vec <- data.frame(cbind(Mag, N, s, R))
+  
+  return(vec)
+}
+d1 <- getpd(Mag = Mag, T = T, df = used_data)
+R <- d1$R
+mo <- lm(log(base = 10, N)~Mag, data = d1)
+a <- mo$coefficients[1]
+b <- mo$coefficients[2]
+s <- d1$s[1]
+
+logn1 <- a+b*d1$Mag +s
+nn <- 10^(logn1)
+# return period
+RP <- 1/nn
+
+pron <- function(t){
+  prob <- 1-exp(-nn*t)
+  return (prob)
+}
+
+result <- matrix(0, ncol = 4, nrow = 80)
+for (i in 1: 80) {
+  result[i, ] <- c(pron(i),i)
+}
+result <- data.frame(result)
+
+colnames(result) <- c("M6_5", "M7", "M7_5", "t")
+
+d1 <- cbind(result$t, result$M6_5)
+d2 <- cbind(result$t, result$M7)
+d3 <- cbind(result$t, result$M7_5)
+
+f_data <- data.frame(rbind(d1, d2, d3))
+
+name <- c(rep(6.5, 80), rep(7.0, 80), rep(7.5, 80))
+f_data$Country <- rep("papua", 80*3)
+f_data$Mag <- name
+f_data$Radius <- c(rep(R[1], 80), rep(R[2], 80), rep(R[3], 80))
+f_data$RP <- c(rep(RP[1], 80), rep(RP[2], 80), rep(RP[3], 80))
+f_data$S <- rep(s, 80*3)
+colnames(f_data) <- c("t", "pd", "Country", "Mag", "R", "PR", "S")
+write.csv(f_data, file = "Papua_pd.csv")
+```
+
+```{r}
+data <- read.csv("new_zealand.csv")
+data$year <- substr(data$time, 1, 4)
+used_data <- data[, c("mag", "year")]
+used_data$country <- rep("new_zealand", dim(used_data)[1])
+T <- 50
+used_data <- used_data[used_data$year >= 1967, ]
+Mag <- c(6.5, 7.0, 7.5)
+
+N <- NULL
+N1 <- NULL
+vec <- NULL
+s <- NULL
+R  <- NULL
+getpd <- function(Mag, T, df) {
+  for (i in 1:length(Mag)){
+    N[i] <- sum(df$mag >= Mag[i])
+    s[i] <- -log(base = 10, T)
+    R[i] <- 10^(-0.2 + 0.36*Mag[i])
+  }
+  vec <- data.frame(cbind(Mag, N, s, R))
+  
+  return(vec)
+}
+d1 <- getpd(Mag = Mag, T = T, df = used_data)
+R <- d1$R
+mo <- lm(log(base = 10, N)~Mag, data = d1)
+a <- mo$coefficients[1]
+b <- mo$coefficients[2]
+s <- d1$s[1]
+
+logn1 <- a+b*d1$Mag +s
+nn <- 10^(logn1)
+# return period
+RP <- 1/nn
+
+pron <- function(t){
+  prob <- 1-exp(-nn*t)
+  return (prob)
+}
+
+result <- matrix(0, ncol = 4, nrow = 80)
+for (i in 1: 80) {
+  result[i, ] <- c(pron(i),i)
+}
+result <- data.frame(result)
+
+colnames(result) <- c("M6_5", "M7", "M7_5", "t")
+
+d1 <- cbind(result$t, result$M6_5)
+d2 <- cbind(result$t, result$M7)
+d3 <- cbind(result$t, result$M7_5)
+
+f_data <- data.frame(rbind(d1, d2, d3))
+
+name <- c(rep(6.5, 80), rep(7.0, 80), rep(7.5, 80))
+f_data$Country <- rep("new_zealand", 80*3)
+f_data$Mag <- name
+f_data$Radius <- c(rep(R[1], 80), rep(R[2], 80), rep(R[3], 80))
+f_data$RP <- c(rep(RP[1], 80), rep(RP[2], 80), rep(RP[3], 80))
+f_data$S <- rep(s, 80*3)
+colnames(f_data) <- c("t", "pd", "Country", "Mag", "R", "PR", "S")
+write.csv(f_data, file = "new_zealand_pd.csv")
+
+```
+
+```{r}
+data <- read.csv("tonga.csv")
+data$year <- substr(data$time, 1, 4)
+used_data <- data[, c("mag", "year")]
+used_data$country <- rep("tonga", dim(used_data)[1])
+T <- 50
+used_data <- used_data[used_data$year >= 1967, ]
+Mag <- c(6.5, 7.0, 7.5)
+
+N <- NULL
+N1 <- NULL
+vec <- NULL
+s <- NULL
+R  <- NULL
+getpd <- function(Mag, T, df) {
+  for (i in 1:length(Mag)){
+    N[i] <- sum(df$mag >= Mag[i])
+    s[i] <- -log(base = 10, T)
+    R[i] <- 10^(-0.2 + 0.36*Mag[i])
+  }
+  vec <- data.frame(cbind(Mag, N, s, R))
+  
+  return(vec)
+}
+d1 <- getpd(Mag = Mag, T = T, df = used_data)
+R <- d1$R
+mo <- lm(log(base = 10, N)~Mag, data = d1)
+a <- mo$coefficients[1]
+b <- mo$coefficients[2]
+s <- d1$s[1]
+
+logn1 <- a+b*d1$Mag +s
+nn <- 10^(logn1)
+# return period
+RP <- 1/nn
+
+pron <- function(t){
+  prob <- 1-exp(-nn*t)
+  return (prob)
+}
+
+result <- matrix(0, ncol = 4, nrow = 80)
+for (i in 1: 80) {
+  result[i, ] <- c(pron(i),i)
+}
+result <- data.frame(result)
+
+colnames(result) <- c("M6_5", "M7", "M7_5", "t")
+
+d1 <- cbind(result$t, result$M6_5)
+d2 <- cbind(result$t, result$M7)
+d3 <- cbind(result$t, result$M7_5)
+
+f_data <- data.frame(rbind(d1, d2, d3))
+
+name <- c(rep(6.5, 80), rep(7.0, 80), rep(7.5, 80))
+f_data$Country <- rep("tonga", 80*3)
+f_data$Mag <- name
+f_data$Radius <- c(rep(R[1], 80), rep(R[2], 80), rep(R[3], 80))
+f_data$RP <- c(rep(RP[1], 80), rep(RP[2], 80), rep(RP[3], 80))
+f_data$S <- rep(s, 80*3)
+colnames(f_data) <- c("t", "pd", "Country", "Mag", "R", "PR", "S")
+write.csv(f_data, file = "tonga_pd.csv")
+```
+
+```{r}
+data <- read.csv("vanuatu.csv")
+data$year <- substr(data$time, 1, 4)
+used_data <- data[, c("mag", "year")]
+used_data$country <- rep("vanuatu", dim(used_data)[1])
+T <- 50
+used_data <- used_data[used_data$year >= 1967, ]
+Mag <- c(6.5, 7.0, 7.5)
+
+N <- NULL
+N1 <- NULL
+vec <- NULL
+s <- NULL
+R  <- NULL
+getpd <- function(Mag, T, df) {
+  for (i in 1:length(Mag)){
+    N[i] <- sum(df$mag >= Mag[i])
+    s[i] <- -log(base = 10, T)
+    R[i] <- 10^(-0.2 + 0.36*Mag[i])
+  }
+  vec <- data.frame(cbind(Mag, N, s, R))
+  
+  return(vec)
+}
+d1 <- getpd(Mag = Mag, T = T, df = used_data)
+R <- d1$R
+mo <- lm(log(base = 10, N)~Mag, data = d1)
+a <- mo$coefficients[1]
+b <- mo$coefficients[2]
+s <- d1$s[1]
+
+logn1 <- a+b*d1$Mag +s
+nn <- 10^(logn1)
+# return period
+RP <- 1/nn
+
+pron <- function(t){
+  prob <- 1-exp(-nn*t)
+  return (prob)
+}
+
+result <- matrix(0, ncol = 4, nrow = 80)
+for (i in 1: 80) {
+  result[i, ] <- c(pron(i),i)
+}
+result <- data.frame(result)
+
+colnames(result) <- c("M6_5", "M7", "M7_5", "t")
+
+d1 <- cbind(result$t, result$M6_5)
+d2 <- cbind(result$t, result$M7)
+d3 <- cbind(result$t, result$M7_5)
+
+f_data <- data.frame(rbind(d1, d2, d3))
+
+name <- c(rep(6.5, 80), rep(7.0, 80), rep(7.5, 80))
+f_data$Country <- rep("vanuatu", 80*3)
+f_data$Mag <- name
+f_data$Radius <- c(rep(R[1], 80), rep(R[2], 80), rep(R[3], 80))
+f_data$RP <- c(rep(RP[1], 80), rep(RP[2], 80), rep(RP[3], 80))
+f_data$S <- rep(s, 80*3)
+colnames(f_data) <- c("t", "pd", "Country", "Mag", "R", "PR", "S")
+write.csv(f_data, file = "vanuatu_pd.csv")
+```
+
+```{r}
+data <- read.csv("russia.csv")
+data$year <- substr(data$time, 1, 4)
+used_data <- data[, c("mag", "year")]
+used_data$country <- rep("russia", dim(used_data)[1])
+T <- 50
+used_data <- used_data[used_data$year >= 1967, ]
+Mag <- c(6.5, 7.0, 7.5)
+
+N <- NULL
+N1 <- NULL
+vec <- NULL
+s <- NULL
+R  <- NULL
+getpd <- function(Mag, T, df) {
+  for (i in 1:length(Mag)){
+    N[i] <- sum(df$mag >= Mag[i])
+    s[i] <- -log(base = 10, T)
+    R[i] <- 10^(-0.2 + 0.36*Mag[i])
+  }
+  vec <- data.frame(cbind(Mag, N, s, R))
+  
+  return(vec)
+}
+d1 <- getpd(Mag = Mag, T = T, df = used_data)
+R <- d1$R
+mo <- lm(log(base = 10, N)~Mag, data = d1)
+a <- mo$coefficients[1]
+b <- mo$coefficients[2]
+s <- d1$s[1]
+
+logn1 <- a+b*d1$Mag +s
+nn <- 10^(logn1)
+# return period
+RP <- 1/nn
+
+pron <- function(t){
+  prob <- 1-exp(-nn*t)
+  return (prob)
+}
+
+result <- matrix(0, ncol = 4, nrow = 80)
+for (i in 1: 80) {
+  result[i, ] <- c(pron(i),i)
+}
+result <- data.frame(result)
+
+colnames(result) <- c("M6_5", "M7", "M7_5", "t")
+
+d1 <- cbind(result$t, result$M6_5)
+d2 <- cbind(result$t, result$M7)
+d3 <- cbind(result$t, result$M7_5)
+
+f_data <- data.frame(rbind(d1, d2, d3))
+
+name <- c(rep(6.5, 80), rep(7.0, 80), rep(7.5, 80))
+f_data$Country <- rep("russia", 80*3)
+f_data$Mag <- name
+f_data$Radius <- c(rep(R[1], 80), rep(R[2], 80), rep(R[3], 80))
+f_data$RP <- c(rep(RP[1], 80), rep(RP[2], 80), rep(RP[3], 80))
+f_data$S <- rep(s, 80*3)
+colnames(f_data) <- c("t", "pd", "Country", "Mag", "R", "PR", "S")
+write.csv(f_data, file = "russia_pd.csv")
+```
+
+
+```{r}
+data <- read.csv("xizang.csv")
+data$year <- substr(data$time, 1, 4)
+used_data <- data[, c("mag", "year")]
+used_data$country <- rep("xizang", dim(used_data)[1])
+T <- 50
+used_data <- used_data[used_data$year >= 1967, ]
+Mag <- c(6.5, 7.0, 7.5)
+
+N <- NULL
+N1 <- NULL
+vec <- NULL
+s <- NULL
+R  <- NULL
+getpd <- function(Mag, T, df) {
+  for (i in 1:length(Mag)){
+    N[i] <- sum(df$mag >= Mag[i])
+    s[i] <- -log(base = 10, T)
+    R[i] <- 10^(-0.2 + 0.36*Mag[i])
+  }
+  vec <- data.frame(cbind(Mag, N, s, R))
+  
+  return(vec)
+}
+d1 <- getpd(Mag = Mag, T = T, df = used_data)
+R <- d1$R
+mo <- lm(log(base = 10, N)~Mag, data = d1)
+a <- mo$coefficients[1]
+b <- mo$coefficients[2]
+s <- d1$s[1]
+
+logn1 <- a+b*d1$Mag +s
+nn <- 10^(logn1)
+# return period
+RP <- 1/nn
+
+pron <- function(t){
+  prob <- 1-exp(-nn*t)
+  return (prob)
+}
+
+result <- matrix(0, ncol = 4, nrow = 80)
+for (i in 1: 80) {
+  result[i, ] <- c(pron(i),i)
+}
+result <- data.frame(result)
+
+colnames(result) <- c("M6_5", "M7", "M7_5", "t")
+
+d1 <- cbind(result$t, result$M6_5)
+d2 <- cbind(result$t, result$M7)
+d3 <- cbind(result$t, result$M7_5)
+
+f_data <- data.frame(rbind(d1, d2, d3))
+
+name <- c(rep(6.5, 80), rep(7.0, 80), rep(7.5, 80))
+f_data$Country <- rep("xizang", 80*3)
+f_data$Mag <- name
+f_data$Radius <- c(rep(R[1], 80), rep(R[2], 80), rep(R[3], 80))
+f_data$RP <- c(rep(RP[1], 80), rep(RP[2], 80), rep(RP[3], 80))
+f_data$S <- rep(s, 80*3)
+colnames(f_data) <- c("t", "pd", "Country", "Mag", "R", "PR", "S")
+write.csv(f_data, file = "xizang_pd.csv")
+```
+
+
+```{r}
+data <- read.csv("turkey.csv")
+data$year <- substr(data$time, 1, 4)
+used_data <- data[, c("mag", "year")]
+used_data$country <- rep("turkey", dim(used_data)[1])
+T <- 50
+used_data <- used_data[used_data$year >= 1967, ]
+Mag <- c(6.5, 7.0, 7.5)
+
+N <- NULL
+N1 <- NULL
+vec <- NULL
+s <- NULL
+R  <- NULL
+getpd <- function(Mag, T, df) {
+  for (i in 1:length(Mag)){
+    N[i] <- sum(df$mag >= Mag[i])
+    s[i] <- -log(base = 10, T)
+    R[i] <- 10^(-0.2 + 0.36*Mag[i])
+  }
+  vec <- data.frame(cbind(Mag, N, s, R))
+  
+  return(vec)
+}
+d1 <- getpd(Mag = Mag, T = T, df = used_data)
+R <- d1$R
+mo <- lm(log(base = 10, N)~Mag, data = d1)
+a <- mo$coefficients[1]
+b <- mo$coefficients[2]
+s <- d1$s[1]
+
+logn1 <- a+b*d1$Mag +s
+nn <- 10^(logn1)
+# return period
+RP <- 1/nn
+
+pron <- function(t){
+  prob <- 1-exp(-nn*t)
+  return (prob)
+}
+
+result <- matrix(0, ncol = 4, nrow = 80)
+for (i in 1: 80) {
+  result[i, ] <- c(pron(i),i)
+}
+result <- data.frame(result)
+
+colnames(result) <- c("M6_5", "M7", "M7_5", "t")
+
+d1 <- cbind(result$t, result$M6_5)
+d2 <- cbind(result$t, result$M7)
+d3 <- cbind(result$t, result$M7_5)
+
+f_data <- data.frame(rbind(d1, d2, d3))
+
+name <- c(rep(6.5, 80), rep(7.0, 80), rep(7.5, 80))
+f_data$Country <- rep("turkey", 80*3)
+f_data$Mag <- name
+f_data$Radius <- c(rep(R[1], 80), rep(R[2], 80), rep(R[3], 80))
+f_data$RP <- c(rep(RP[1], 80), rep(RP[2], 80), rep(RP[3], 80))
+f_data$S <- rep(s, 80*3)
+colnames(f_data) <- c("t", "pd", "Country", "Mag", "R", "PR", "S")
+write.csv(f_data, file = "turkey_pd.csv")
+```
+
+```{r}
+data <- read.csv("mac.csv")
+data$year <- substr(data$time, 1, 4)
+used_data <- data[, c("mag", "year")]
+used_data$country <- rep("mac", dim(used_data)[1])
+T <- 50
+used_data <- used_data[used_data$year >= 1967, ]
+Mag <- c(6.5, 7.0, 7.5)
+
+N <- NULL
+N1 <- NULL
+vec <- NULL
+s <- NULL
+R  <- NULL
+getpd <- function(Mag, T, df) {
+  for (i in 1:length(Mag)){
+    N[i] <- sum(df$mag >= Mag[i])
+    s[i] <- -log(base = 10, T)
+    R[i] <- 10^(-0.2 + 0.36*Mag[i])
+  }
+  vec <- data.frame(cbind(Mag, N, s, R))
+  
+  return(vec)
+}
+d1 <- getpd(Mag = Mag, T = T, df = used_data)
+R <- d1$R
+mo <- lm(log(base = 10, N)~Mag, data = d1)
+a <- mo$coefficients[1]
+b <- mo$coefficients[2]
+s <- d1$s[1]
+
+logn1 <- a+b*d1$Mag +s
+nn <- 10^(logn1)
+# return period
+RP <- 1/nn
+
+pron <- function(t){
+  prob <- 1-exp(-nn*t)
+  return (prob)
+}
+
+result <- matrix(0, ncol = 4, nrow = 80)
+for (i in 1: 80) {
+  result[i, ] <- c(pron(i),i)
+}
+result <- data.frame(result)
+
+colnames(result) <- c("M6_5", "M7", "M7_5", "t")
+
+d1 <- cbind(result$t, result$M6_5)
+d2 <- cbind(result$t, result$M7)
+d3 <- cbind(result$t, result$M7_5)
+
+f_data <- data.frame(rbind(d1, d2, d3))
+
+name <- c(rep(6.5, 80), rep(7.0, 80), rep(7.5, 80))
+f_data$Country <- rep("mac", 80*3)
+f_data$Mag <- name
+f_data$Radius <- c(rep(R[1], 80), rep(R[2], 80), rep(R[3], 80))
+f_data$RP <- c(rep(RP[1], 80), rep(RP[2], 80), rep(RP[3], 80))
+f_data$S <- rep(s, 80*3)
+colnames(f_data) <- c("t", "pd", "Country", "Mag", "R", "PR", "S")
+write.csv(f_data, file = "mac_pd.csv")
+```
+
+
+```{r}
+data <- read.csv("nicaragua.csv")
+data$year <- substr(data$time, 1, 4)
+used_data <- data[, c("mag", "year")]
+used_data$country <- rep("nicaragua", dim(used_data)[1])
+T <- 50
+used_data <- used_data[used_data$year >= 1967, ]
+Mag <- c(6.5, 7.0, 7.5)
+
+N <- NULL
+N1 <- NULL
+vec <- NULL
+s <- NULL
+R  <- NULL
+getpd <- function(Mag, T, df) {
+  for (i in 1:length(Mag)){
+    N[i] <- sum(df$mag >= Mag[i])
+    s[i] <- -log(base = 10, T)
+    R[i] <- 10^(-0.2 + 0.36*Mag[i])
+  }
+  vec <- data.frame(cbind(Mag, N, s, R))
+  
+  return(vec)
+}
+d1 <- getpd(Mag = Mag, T = T, df = used_data)
+R <- d1$R
+mo <- lm(log(base = 10, N)~Mag, data = d1)
+a <- mo$coefficients[1]
+b <- mo$coefficients[2]
+s <- d1$s[1]
+
+logn1 <- a+b*d1$Mag +s
+nn <- 10^(logn1)
+# return period
+RP <- 1/nn
+
+pron <- function(t){
+  prob <- 1-exp(-nn*t)
+  return (prob)
+}
+
+result <- matrix(0, ncol = 4, nrow = 80)
+for (i in 1: 80) {
+  result[i, ] <- c(pron(i),i)
+}
+result <- data.frame(result)
+
+colnames(result) <- c("M6_5", "M7", "M7_5", "t")
+
+d1 <- cbind(result$t, result$M6_5)
+d2 <- cbind(result$t, result$M7)
+d3 <- cbind(result$t, result$M7_5)
+
+f_data <- data.frame(rbind(d1, d2, d3))
+
+name <- c(rep(6.5, 80), rep(7.0, 80), rep(7.5, 80))
+f_data$Country <- rep("nicaragua", 80*3)
+f_data$Mag <- name
+f_data$Radius <- c(rep(R[1], 80), rep(R[2], 80), rep(R[3], 80))
+f_data$RP <- c(rep(RP[1], 80), rep(RP[2], 80), rep(RP[3], 80))
+f_data$S <- rep(s, 80*3)
+colnames(f_data) <- c("t", "pd", "Country", "Mag", "R", "PR", "S")
+write.csv(f_data, file = "nicaragua_pd.csv")
+```
+
+```{r}
+setwd("~/Desktop/DataFest/pds")
+file_names <- dir("~/Desktop/DataFest/pds")
+myMergedData <- do.call(rbind,lapply(file_names, read.csv))
+myMergedData <- myMergedData[, -1]
+setwd("~/Desktop/DataFest")
+write.csv(myMergedData, file = "all_pd.csv")
+```

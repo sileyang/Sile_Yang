@@ -1,0 +1,1 @@
+earthquakes<-read.csv("US.csv")

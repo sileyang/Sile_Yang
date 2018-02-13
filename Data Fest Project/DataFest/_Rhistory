@@ -1,0 +1,512 @@
+N <- NULL
+N1 <- NULL
+vec <- NULL
+s <- NULL
+getpd <- function(Mag, T, df) {
+for (i in 1:length(Mag)){
+N[i] <- sum(df$mag >= Mag[i])
+s[i] <- -log(T)
+}
+vec <- data.frame(cbind(Mag, N, s))
+# logR <- -0.2+0.36*Mag
+return(vec)
+}
+d1 <- getpd(Mag = Mag, T = T, df = used_data)
+mo <- lm(log(N)~Mag, data = d1)
+a <- mo$coefficients[1]
+b <- mo$coefficients[2]
+s <- d1$s[1]
+logn1 <- a+b*d1$Mag +s
+nn <- 10^(logn1)
+pron <- function(t){
+prob <- 1-exp(-nn*t)
+return (prob)
+}
+pron(t = 1)
+pron(t = 50)
+nn
+pron(t = 2)
+nn
+data <- read.csv("US.csv")
+data$year <- substr(data$time, 1, 4)
+used_data <- data[, c("mag", "year")]
+used_data$country <- rep("USA", dim(used_data)[1])
+T <- 50
+used_data <- used_data[used_data$year >= 1967, ]
+Mag <- c(6.5, 7.0, 7.5)
+N <- NULL
+N1 <- NULL
+vec <- NULL
+s <- NULL
+getpd <- function(Mag, T, df) {
+for (i in 1:length(Mag)){
+N[i] <- sum(df$mag >= Mag[i])
+s[i] <- -log(T)
+}
+vec <- data.frame(cbind(Mag, N, s))
+# logR <- -0.2+0.36*Mag
+return(vec)
+}
+d1 <- getpd(Mag = Mag, T = T, df = used_data)
+mo <- lm(log(N)~Mag, data = d1)
+a <- mo$coefficients[1]
+b <- mo$coefficients[2]
+s <- d1$s[1]
+logn1 <- a+b*d1$Mag +s
+nn <- 10^(logn1)
+pron <- function(t){
+prob <- 1-exp(-nn*t)
+return (prob)
+}
+pron(t = 1)
+pron(t = 12)
+nn
+pron(t = 20)
+pron(t = 40)
+pron(t = 60)
+pron(t = 200)
+pron(t = 50)
+result <- matrix(NULL, ncol = 3, nrow = 80)
+for (i in 1: 80) {
+result[i, ] <- pron(i)
+}
+result <- matrix(NULL, ncol = 3, nrow = 80)
+result <- matrix(0, ncol = 3, nrow = 80)
+for (i in 1: 80) {
+result[i, ] <- pron(i)
+}
+result
+colnames(result) <- c("M6", "M6/5", "M7")
+rownames(result) <- c(1:80)
+result
+result$Country <- rep("USA", dim(result)[1])
+result$Country <- rep("USA", 80)
+rownames(result) <- rep("USA", 80)
+result$t <- c(1:80)
+result <- matrix(0, ncol = 3, nrow = 80)
+for (i in 1: 80) {
+result[i, ] <- pron(i)
+}
+rownames(result) <- rep("USA", 80)
+result$t <- c(1:80)
+result <- matrix(0, ncol = 3, nrow = 80)
+for (i in 1: 80) {
+result[i, ] <- pron(i)
+}
+rownames(result) <- rep("USA", 80)
+result
+result <- matrix(0, ncol = 3, nrow = 80)
+for (i in 1: 80) {
+result[i, ] <- cbind(pron(i),i)
+}
+rownames(result) <- rep("USA", 80)
+result <- matrix(0, ncol = 3, nrow = 80)
+result <- matrix(0, ncol = 4, nrow = 80)
+for (i in 1: 80) {
+result[i, ] <- cbind(pron(i),i)
+}
+i = 1
+pron(i)
+cbind(pron(i),i)
+c(pron(i),i)
+result <- matrix(0, ncol = 4, nrow = 80)
+for (i in 1: 80) {
+result[i, ] <- c(pron(i),i)
+}
+rownames(result) <- rep("USA", 80)
+result
+colnames(result) <- c("M6", "M6/5", "M7", "t")
+colnames(result) <- c("M6", "M6/5", "M7", "t")
+result <- matrix(0, ncol = 4, nrow = 80)
+for (i in 1: 80) {
+result[i, ] <- as.matrix(c(pron(i),i))
+}
+rownames(result) <- rep("USA", 80)
+colnames(result) <- c("M6", "M6/5", "M7", "t")
+result
+write.csv(result, file = "us_pd.csv")
+data <- read.csv("us_pd.csv")
+library(googleCharts)
+library(googleCharts)
+library(googleCharts)
+data <- read.csv("US.csv")
+data$year <- substr(data$time, 1, 4)
+used_data <- data[, c("mag", "year")]
+used_data$country <- rep("USA", dim(used_data)[1])
+T <- 50
+used_data <- used_data[used_data$year >= 1967, ]
+Mag <- c(6.5, 7.0, 7.5)
+N <- NULL
+N1 <- NULL
+vec <- NULL
+s <- NULL
+getpd <- function(Mag, T, df) {
+for (i in 1:length(Mag)){
+N[i] <- sum(df$mag >= Mag[i])
+s[i] <- -log(T)
+}
+vec <- data.frame(cbind(Mag, N, s))
+# logR <- -0.2+0.36*Mag
+return(vec)
+}
+d1 <- getpd(Mag = Mag, T = T, df = used_data)
+mo <- lm(log(N)~Mag, data = d1)
+a <- mo$coefficients[1]
+b <- mo$coefficients[2]
+s <- d1$s[1]
+logn1 <- a+b*d1$Mag +s
+nn <- 10^(logn1)
+pron <- function(t){
+prob <- 1-exp(-nn*t)
+return (prob)
+}
+result <- matrix(0, ncol = 4, nrow = 80)
+for (i in 1: 80) {
+result[i, ] <- as.matrix(c(pron(i),i))
+}
+result$Country <- rep("USA", 80)
+colnames(result) <- c("M6", "M6/5", "M7", "t", "Country")
+write.csv(result, file = "us_pd.csv")
+data <- read.csv("US.csv")
+data$year <- substr(data$time, 1, 4)
+used_data <- data[, c("mag", "year")]
+used_data$country <- rep("USA", dim(used_data)[1])
+T <- 50
+used_data <- used_data[used_data$year >= 1967, ]
+Mag <- c(6.5, 7.0, 7.5)
+N <- NULL
+N1 <- NULL
+vec <- NULL
+s <- NULL
+getpd <- function(Mag, T, df) {
+for (i in 1:length(Mag)){
+N[i] <- sum(df$mag >= Mag[i])
+s[i] <- -log(T)
+}
+vec <- data.frame(cbind(Mag, N, s))
+# logR <- -0.2+0.36*Mag
+return(vec)
+}
+d1 <- getpd(Mag = Mag, T = T, df = used_data)
+mo <- lm(log(N)~Mag, data = d1)
+a <- mo$coefficients[1]
+b <- mo$coefficients[2]
+s <- d1$s[1]
+logn1 <- a+b*d1$Mag +s
+nn <- 10^(logn1)
+pron <- function(t){
+prob <- 1-exp(-nn*t)
+return (prob)
+}
+result <- matrix(0, ncol = 4, nrow = 80)
+for (i in 1: 80) {
+result[i, ] <- as.matrix(c(pron(i),i))
+}
+result$Country <- rep("USA", 80)
+colnames(result) <- c("M6", "M6/5", "M7", "t", "Country")
+write.csv(result, file = "us_pd.csv")
+result <- matrix(0, ncol = 4, nrow = 80)
+for (i in 1: 80) {
+result[i, ] <- as.matrix(c(pron(i),i, "USA"))
+}
+colnames(result) <- c("M6", "M6/5", "M7", "t", "Country")
+result <- matrix(0, ncol = 4, nrow = 80)
+for (i in 1: 80) {
+result[i, ] <- c(pron(i),i)
+}
+result
+result <- matrix(0, ncol = 4, nrow = 80)
+for (i in 1: 80) {
+result[i, ] <- data.frame(c(pron(i),i))
+}
+result <- matrix(0, ncol = 4, nrow = 80)
+for (i in 1: 80) {
+result[i, ] <- c(pron(i),i)
+}
+result <- data.frame(result)
+result$Country <- rep("USA", 80)
+colnames(result) <- c("M6", "M6/5", "M7", "t", "Country")
+result
+write.csv(result, file = "us_pd.csv")
+data <- read.csv("us_pd.csv")
+data$Country <- as.facor(data$Country)
+data$Country <- as.factor(data$Country)
+df <- data %.%
+)
+library(googleCharts)
+data
+result
+colnames(result) <- c("M6", "M6_5", "M7", "t", "Country")
+d1 <- cbind(result$M6, result$t, result$Country)
+d2 <- cbind(result$M6_5, result$t, result$Country)
+d3 <- cbind(result$M7, result$t, result$Country)
+d1
+d1 <- as.vector(cbind(result$M6, result$t, result$Country))
+d1
+d1 <- cbind(result$M6, result$t, result$Country)
+d1
+result <- matrix(0, ncol = 4, nrow = 80)
+for (i in 1: 80) {
+result[i, ] <- c(pron(i),i)
+}
+result <- data.frame(result)
+# result$Country <- rep("USA", 80)
+colnames(result) <- c("M6", "M6_5", "M7", "t")
+result
+d1 <- cbind(result$M6, result$t)
+d2 <- cbind(result$M6_5, result$t)
+d3 <- cbind(result$M7, result$t)
+d1
+d1 <- cbind(result$t, result$M6)
+d2 <- cbind(result$t, result$M6_5)
+d3 <- cbind(result$t, result$M7)
+d1
+d2
+d3
+f_data <- rbind(d1, d2, d3)
+f_data
+f_data <- data.frame(rbind(d1, d2, d3))
+f_data
+f_data$Country <- rep("USA", 80*3)
+f_data
+write.csv(f_data, file = "us_pd.csv")
+data <- read.csv("us_pd.csv")
+data$Country <- as.factor(data$Country)
+head(data)
+data <- read.csv("us_pd.csv")[-1]
+colnames <- c("t", "pd", "Country")
+data$Country <- as.factor(data$Country)
+View(data)
+colnames(data) <- c("t", "pd", "Country")
+data$Country <- as.factor(data$Country)
+View(data)
+f_data
+d1 <- cbind(rep("M6", 80), result$t, result$M6)
+d1
+d1 <- cbind(result$t, result$M6)
+d2 <- cbind(result$t, result$M6_5)
+d3 <- cbind(result$t, result$M7)
+f_data <- data.frame(rbind(d1, d2, d3))
+f_data <- data.frame(rbind(d1, d2, d3))
+name <- c(rep(M6, 80), rep(M6_5, 80), rep(M7, 80))
+f_data$Country <- rep("USA", 80*3)
+f_data$Mag <- name
+name <- c(rep("M6", 80), rep("M6_5", 80), rep("M7", 80))
+colnames(result) <- c("M6", "M6_5", "M7", "t")
+d1 <- cbind(result$t, result$M6)
+d2 <- cbind(result$t, result$M6_5)
+d3 <- cbind(result$t, result$M7)
+f_data <- data.frame(rbind(d1, d2, d3))
+name <- c(rep("M6", 80), rep("M6_5", 80), rep("M7", 80))
+f_data$Country <- rep("USA", 80*3)
+f_data$Mag <- name
+f_data
+colnames(f_data) <- c("t", "pd", "Country", "Mag")
+write.csv(f_data, file = "us_pd.csv")
+data <- read.csv("us_pd.csv")[-1]
+data$Country <- as.factor(data$Country)
+View(data)
+runApp()
+data
+runApp()
+install.packages("tidyverse")
+library(tidyverse)
+library(tidyverse)
+runApp()
+head(data)
+runApp()
+runApp()
+runApp()
+head(data)
+class(data$t)
+typepf(data$t)
+typeof(data$t)
+runApp()
+data <- read.csv("us_pd.csv")[-1]
+data$Country <- as.factor(data$Country)
+data$size <- rep(1, dim(data)[1])
+runApp()
+data <- read.csv("us_pd.csv")[-1]
+data$Country <- as.factor(data$Country)
+data$size <- rep(1, dim(data)[1])
+rowname(data) <- data$t
+data <- read.csv("us_pd.csv")[-1]
+data$Country <- as.factor(data$Country)
+data$size <- rep(1, dim(data)[1])
+rownames(data) <- data$t
+data <- read.csv("US.csv")
+data$year <- substr(data$time, 1, 4)
+used_data <- data[, c("mag", "year")]
+used_data$country <- rep("USA", dim(used_data)[1])
+T <- 50
+used_data <- used_data[used_data$year >= 1967, ]
+Mag <- c(6.5, 7.0, 7.5)
+N <- NULL
+N1 <- NULL
+vec <- NULL
+s <- NULL
+getpd <- function(Mag, T, df) {
+for (i in 1:length(Mag)){
+N[i] <- sum(df$mag >= Mag[i])
+s[i] <- -log(T)
+}
+vec <- data.frame(cbind(Mag, N, s))
+# logR <- -0.2+0.36*Mag
+return(vec)
+}
+d1 <- getpd(Mag = Mag, T = T, df = used_data)
+mo <- lm(log(N)~Mag, data = d1)
+a <- mo$coefficients[1]
+b <- mo$coefficients[2]
+s <- d1$s[1]
+logn1 <- a+b*d1$Mag +s
+nn <- 10^(logn1)
+pron <- function(t){
+prob <- 1-exp(-nn*t)
+return (prob)
+}
+result <- matrix(0, ncol = 4, nrow = 80)
+for (i in 1: 80) {
+result[i, ] <- c(pron(i),i)
+}
+result <- data.frame(result)
+colnames(result) <- c("M6", "M6_5", "M7", "t")
+d1 <- cbind(result$t, result$M6)
+d2 <- cbind(result$t, result$M6_5)
+d3 <- cbind(result$t, result$M7)
+f_data <- data.frame(rbind(d1, d2, d3))
+f_data
+d1
+d2
+f_data
+name <- c(rep("M6", 80), rep("M6_5", 80), rep("M7", 80))
+f_data
+f_data <- data.frame(rbind(d1, d2, d3))
+name <- c(rep("M6", 80), rep("M6_5", 80), rep("M7", 80))
+f_data$Country <- rep("USA", 80*3)
+f_data$Mag <- name
+f_data
+write.csv(f_data, file = "us_pd.csv")
+data <- read.csv("us_pd.csv")[-1]
+data$Country <- as.factor(data$Country)
+data$size <- rep(1, dim(data)[1])
+data
+f_data <- data.frame(rbind(d1, d2, d3))
+name <- c(rep("M6", 80), rep("M6_5", 80), rep("M7", 80))
+f_data$Country <- rep("USA", 80*3)
+f_data$Mag <- name
+colnames(f_data) <- c("t", "pd", "Country", "Mag")
+write.csv(f_data, file = "us_pd.csv")
+data <- read.csv("us_pd.csv")[-1]
+data$Country <- as.factor(data$Country)
+data$size <- rep(1, dim(data)[1])
+data
+colnames(data) <- c("t", "pd", "Country", "Mag", "size")
+View(data)
+runApp()
+data$t <- as.numeric(data$t)
+runApp()
+runApp()
+d1 <- cbind(result$t, result$M6)
+d2 <- cbind(result$t, result$M6_5)
+d3 <- cbind(result$t, result$M7)
+f_data <- data.frame(rbind(d1, d2, d3))
+name <- c(rep(6, 80), rep(6.5, 80), rep(7, 80))
+f_data$Country <- rep("USA", 80*3)
+f_data$Mag <- name
+colnames(f_data) <- c("t", "pd", "Country", "Mag")
+write.csv(f_data, file = "us_pd.csv")
+data <- read.csv("us_pd.csv")[-1]
+data$Country <- as.factor(data$Country)
+data$size <- rep(1, dim(data)[1])
+colnames(data) <- c("t", "pd", "Country", "Mag", "size")
+data$t <- as.numeric(data$t)
+runApp()
+rep((c(1:80), 3)
+rep(c(1:80), 3)
+data$time <- rep(c(1:80), 3)
+data
+runApp()
+runApp()
+runApp()
+runApp()
+data
+runApp()
+f_data
+runApp()
+data <- read.csv("us_pd.csv")[-1]
+data$Country <- as.factor(data$Country)
+colnames(data) <- c("t", "pd", "Country", "Mag", "size")
+View(data)
+unique(data$Mag)
+d1 <- data[data$Mag == 6.0, ]
+d2 <- data[data$Mag == 6.5, ]
+d3 <- data[data$Mag == 7.0, ]
+d1
+d2
+runApp()
+data <- read.csv("us_pd.csv")[-1]
+datav
+data
+colnames(data) <- c("t", "pd", "Country", "Mag")
+d1 <- data[data$Mag == 6.0, ]
+d2 <- data[data$Mag == 6.5, ]
+d3 <- data[data$Mag == 7.0, ]
+runApp()
+runApp()
+data$Country <- as.factor(data$Country)
+data <- read.csv("us_pd.csv")[-1]
+colnames(data) <- c("t", "pd", "Country", "Mag")
+data$Country <- as.factor(data$Country)
+d1 <- data[data$Mag == 6.0, ]
+d2 <- data[data$Mag == 6.5, ]
+d3 <- data[data$Mag == 7.0, ]
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+levels(data$Country
+)
+runApp()
+help(selectInput)
+runApp()
+help(sidebarLayout)
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+help(sidebarLayout)
+runApp()
+runApp()
+d1 <- data[data$Mag == 6.0, ]
+data
+d2 <- data[data$Mag == 6.5, ]
+d3 <- data[data$Mag == 7.0, ]
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+runApp()
+d1 <- data[data$Mag == 6.0,]
+d1 <- data[data$Mag == 6.0,]
+d2 <- data[data$Mag == 6.5,]
+d3 <- data[data$Mag == 7.0,]
+runApp()
+runApp()
+runApp()
+d1
+runApp()
+d1
+d1[d1$Country == USA", ]
+)
+)
+0
+]
+ZSXSX
+INSDA
+asljdkssd

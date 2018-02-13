@@ -1,0 +1,73 @@
+---
+title: "DataFest"
+author: "YinchuWang UNI:yw2888"
+date: "11/3/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+setwd("~/Desktop/DataFest/DATA")
+EQ <- read.csv("EQ.csv")
+VO <- read.csv("Volcano_Events.csv")
+VO <- VO[VO$Year >= 1967,]
+EQ$year <- as.numeric(substr(EQ$X...time, 1, 4))
+EQ$month <- as.numeric(substr(EQ$X...time, 6, 7))
+EQ$day <- as.numeric(substr(EQ$X...time, 9, 10))
+EQ <- EQ[EQ$year >= 1967, ]
+# get the country for earthquake:
+EQ$place_col <- as.character(EQ[,"place"])
+EQ$country <- sapply(strsplit(EQ$place_col,", "),"[",2)
+index <- is.na(EQ$country)
+EQ$country[index] <- EQ$place_col[index]
+#TS <-read.csv("Tsunami.csv", header = T,sep="\t")
+#TS <- TS[TS$X...Year >= 1967,]
+
+##########
+# get the country for TS:
+getcountry <- function(vec){
+  lon <- vec[1]
+  lat <- vec[2]
+  key <- as.vector(revgeocode(c(lon, lat)))
+  # key <- as.character(unlist(strsplit(key,", ")))
+  # n <- length(key)
+  # out <- key[n]
+  return (key)
+}
+```
+####
+location <- TS[,c("LONGITUDE","LATITUDE")]
+bb <- NULL
+bb <- apply(location, 1, getcountry)
+location$bb <- bb
+bb_col <- as.character(location[,"bb"])
+split <- sapply(strsplit(bb_col,", "),"[")
+split1 <- mapply('[[', split, lengths(split))
+
+TS$place_col <- as.character(EQ[,""])
+EQ$country <- sapply(strsplit(EQ$place_col,", "),"[",2)
+index <- is.na(EQ$country)
+EQ$country[index] <- EQ$place_col[index]
+######
+```{r}
+# combined data
+vo_select <- VO[, c("Year", "Mo", "Dy", "Country", "VEI")]
+vo_select$D <- rep("Volcano", dim(vo_select)[1])
+eq_select <- EQ[, c("year", "month", "day", "country", "magType")]
+eq_select$D <- rep("Earthquake", dim(eq_select)[1])
+colnames(vo_select) <- c("Year", "Month", "Day", "Country", "Type", "D_type")
+colnames(eq_select) <- c("Year", "Month", "Day", "Country", "Type", "D_type")
+#TS$D <- rep("Tsunami", dim(TS)[1])
+#colnames(TS) <- c("Year", "Month", "Day", "Country", "Type", "D_type")
+total <- data.frame(rbind(eq_select, vo_select))
+index <- grep("Visokoi Island", total$Country)
+total[index, "Country"] = "Visokoi Island"
+setwd("~/Desktop/DataFest/DATA")
+write.csv(total, file = "combined_eqvo.csv")
+```
+
+
+
