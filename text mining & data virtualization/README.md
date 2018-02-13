@@ -1,14 +1,5 @@
----
-title: "project 1"
-author: "sile yang"
-date: "2/4/2018"
-output: 
-  html_document:
-        keep_md: true
----
 
-    
-#Project 1: Text Mining among Edgar Allan Poe, HP Lovecraft, and Mary Shelley
+#Project: Text Mining among Edgar Allan Poe, HP Lovecraft, and Mary Shelley
 ***
 
 ##Project Description
